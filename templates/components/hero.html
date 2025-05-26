@@ -8,12 +8,38 @@
 		<div class="row justify-center">
 			<div class="col-auto">
 				<div class="text-center">
-					<h1 data-anim-child="slide-up delay-4" class="text-60 lg:text-40 md:text-30 text-white">
-                        Ruhango Divine Mercy Sanctuary
-                    </h1>
-					<p data-anim-child="slide-up delay-5" class="text-white mt-6 md:mt-10">
-                        Ruhango Divine Mercy Sanctuary has a rich history rooted in faith and community. Established in the early 20th century, it has served as a beacon of hope and healing for countless individuals. The sanctuary is dedicated to promoting divine mercy and fostering a sense of unity among its members.
-                    </p>
+					{% if request.session.lang == "fr" %}
+                        <h1 data-anim-child="slide-up delay-4" class="text-60 lg:text-40 md:text-30 text-white">
+                            Sanctuaire de la Divine Miséricorde de Ruhango
+                        </h1>
+                        <p data-anim-child="slide-up delay-5" class="text-white mt-6 md:mt-10">
+                            Le Sanctuaire de la Divine Miséricorde de Ruhango possède une riche histoire ancrée dans la foi et la communauté. Établi au début du XXe siècle, il a servi de phare d'espoir et de guérison pour d'innombrables personnes. Le sanctuaire est dédié à promouvoir la divine miséricorde et à favoriser un sentiment d'unité parmi ses membres.
+                        </p>
+
+                    {% elif request.session.lang == "rw" %}
+                        <h1 data-anim-child="slide-up delay-4" class="text-60 lg:text-40 md:text-30 text-white">
+                            Icyicaro cy'Ubuntu bw’Imana cya Ruhango
+                        </h1>
+                        <p data-anim-child="slide-up delay-5" class="text-white mt-6 md:mt-10">
+                            Icyicaro cy’Ubuntu bw’Imana cya Ruhango gifite amateka akomeye ashingiye ku kwemera no ku muryango. Cyashinzwe mu ntangiriro z’ikinyejana cya 20, cyabaye icyitegererezo cy’icyizere n’ubuvugizi ku bantu benshi. Icyicaro cyiyemeje kwamamaza ubuntu bw’Imana no guteza imbere ubwuzuzanye mu bagize umuryango wacyo.
+                        </p>
+
+                    {% elif request.session.lang == "sw" %}
+                        <h1 data-anim-child="slide-up delay-4" class="text-60 lg:text-40 md:text-30 text-white">
+                            Makao ya Rehema ya Mungu Ruhango
+                        </h1>
+                        <p data-anim-child="slide-up delay-5" class="text-white mt-6 md:mt-10">
+                            Makao ya Rehema ya Mungu Ruhango yana historia tajiri iliyozingatia imani na jamii. Ilianzishwa mwanzoni mwa karne ya 20, imekuwa taa ya matumaini na uponyaji kwa watu wengi. Makao hayo yamejikita kukuza rehema ya Mungu na kuunda hisia ya umoja miongoni mwa wanachama wake.
+                        </p>
+
+                    {% else %}
+                        <h1 data-anim-child="slide-up delay-4" class="text-60 lg:text-40 md:text-30 text-white">
+                            Ruhango Divine Mercy Sanctuary
+                        </h1>
+                        <p data-anim-child="slide-up delay-5" class="text-white mt-6 md:mt-10">
+                            Ruhango Divine Mercy Sanctuary has a rich history rooted in faith and community. Established in the early 20th century, it has served as a beacon of hope and healing for countless individuals. The sanctuary is dedicated to promoting divine mercy and fostering a sense of unity among its members.
+                        </p>
+                    {% endif %}
 				</div>
 			</div>
 		</div>
