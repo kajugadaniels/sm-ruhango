@@ -1,0 +1,61 @@
+{% load static %}
+
+<header data-add-bg="" class="header bg-white js-header" data-x="header" data-x-toggle="is-menu-opened">
+	<div data-anim="fade" class="header__container px-30 sm:px-20">
+		<div class="row justify-between items-center">
+			<div class="col-auto">
+				<div class="d-flex items-center">
+					<a href="{% url 'base:home' %}" class="header-logo mr-20" data-x="header-logo" data-x-toggle="is-logo-dark">
+						<img src="{% static 'img/logo/logo.png' %}" alt="logo icon">
+						<img src="{% static 'img/logo/logo.png' %}" alt="logo icon">
+					</a>
+
+					<div class="header-menu " data-x="mobile-menu" data-x-toggle="is-menu-active">
+						<div class="mobile-overlay"></div>
+						<div class="header-menu__content">
+							<div class="mobile-bg js-mobile-bg"></div>
+
+							<div class="menu js-navList">
+								<ul class="menu__nav text-dark-1 -is-active">
+									<li>
+										<a href="{% url 'base:home' %}">Home</a>
+									</li>
+								</ul>
+							</div>
+							<div class="mobile-footer px-20 py-20 border-top-light js-mobile-footer"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-auto">
+				<div class="d-flex items-center">
+					<div class="row x-gap-20 items-center xxl:d-none">
+						<div class="col-auto">
+							<button class="d-flex items-center text-14 text-dark-1" data-x-click="lang">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 36 36" class="rounded-full mr-10">
+                                    <path fill="currentColor" d="M26.54 18a19.4 19.4 0 0 0-.43-4h3.6a12 12 0 0 0-.67-1.6h-3.35a19.7 19.7 0 0 0-2.89-5.87a12.3 12.3 0 0 0-2.55-.76a17.8 17.8 0 0 1 3.89 6.59h-5.39V5.6h-1.5v6.77h-5.39a17.8 17.8 0 0 1 3.9-6.6a12.3 12.3 0 0 0-2.54.75a19.7 19.7 0 0 0-2.91 5.85H6.94A12 12 0 0 0 6.26 14h3.63a19.4 19.4 0 0 0-.43 4a19.7 19.7 0 0 0 .5 4.37H6.42A12 12 0 0 0 7.16 24h3.23a19.3 19.3 0 0 0 2.69 5.36a12.3 12.3 0 0 0 2.61.79A17.9 17.9 0 0 1 12 24h5.26v6.34h1.5V24H24a17.9 17.9 0 0 1-3.7 6.15a12.3 12.3 0 0 0 2.62-.81A19.3 19.3 0 0 0 25.61 24h3.2a12 12 0 0 0 .74-1.6H26a19.7 19.7 0 0 0 .54-4.4m-9.29 4.37h-5.74a17.7 17.7 0 0 1-.09-8.4h5.83Zm7.24 0h-5.74V14h5.83a18.2 18.2 0 0 1 .42 4a18 18 0 0 1-.51 4.37" class="clr-i-outline clr-i-outline-path-1" />
+                                    <path fill="currentColor" d="M18 2a16 16 0 1 0 16 16A16 16 0 0 0 18 2m0 30a14 14 0 1 1 14-14a14 14 0 0 1-14 14" class="clr-i-outline clr-i-outline-path-2" />
+                                    <path fill="none" d="M0 0h36v36H0z" />
+                                </svg>
+								<span class="js-language-mainTitle">
+									English
+								</span>
+								<i class="icon-chevron-sm-down text-7 ml-15"></i>
+							</button>
+						</div>
+					</div>
+					<div class="d-flex items-center ml-20 is-menu-opened-hide md:d-none">
+						<a href="#" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
+							Donate
+						</a>
+					</div>
+					<div class="d-none xl:d-flex x-gap-20 items-center pl-30" data-x="header-mobile-icons" data-x-toggle="text-white">
+						<div><a href="#" class="d-flex items-center icon-user text-inherit text-22"></a></div>
+						<div><button class="d-flex items-center icon-menu text-20" data-x-click="html, header, header-logo, header-mobile-icons, mobile-menu"></button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
