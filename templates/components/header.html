@@ -91,9 +91,24 @@
 						</div>
 					</div>
 					<div class="d-flex items-center ml-20 is-menu-opened-hide md:d-none">
-						<a href="#" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
-							Donate
-						</a>
+						{% if request.session.lang == "fr" %}
+							<a href="#" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
+								Faire un don
+							</a>
+						{% elif request.session.lang == "rw" %}
+							<a href="#" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
+								Tanga Inkunga
+							</a>
+						{% elif request.session.lang == "sw" %}
+							<a href="#" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
+								Toa Mchango
+							</a>
+						{% else %}
+							<a href="#" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
+								Donate
+							</a>
+						{% endif %}
+
 					</div>
 					<div class="d-none xl:d-flex x-gap-20 items-center pl-30" data-x="header-mobile-icons" data-x-toggle="text-white">
 						<div><button class="d-flex items-center icon-menu text-20" data-x-click="html, header, header-logo, header-mobile-icons, mobile-menu"></button></div>
