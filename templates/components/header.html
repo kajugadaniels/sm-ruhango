@@ -17,27 +17,46 @@
 
 							<div class="menu js-navList">
 								<ul class="menu__nav text-dark-1 -is-active">
-									<li>
-										<a href="{% url 'base:home' %}">Home</a>
-									</li>
-									<li>
-										<a href="#">Mass Schedule</a>
-									</li>
-									<li>
-										<a href="#">Homilies</a>
-									</li>
-									<li>
-										<a href="#">Healing Prayers</a>
-									</li>
-									<li>
-										<a href="#">Events</a>
-									</li>
-									<li>
-										<a href="#">Testimony</a>
-									</li>
-									<li>
-										<a href="#">Gallery</a>
-									</li>
+									{# ---------- ENGLISH ---------- #}
+									{% if request.session.lang == "en" or request.session.lang == None %}
+										<li><a href="{% url 'base:home' %}">Home</a></li>
+										<li><a href="#">Mass Schedule</a></li>
+										<li><a href="#">Homilies</a></li>
+										<li><a href="#">Healing Prayers</a></li>
+										<li><a href="#">Events</a></li>
+										<li><a href="#">Testimony</a></li>
+										<li><a href="#">Gallery</a></li>
+								
+									{# ---------- FRANÇAIS ---------- #}
+									{% elif request.session.lang == "fr" %}
+										<li><a href="{% url 'base:home' %}">Accueil</a></li>
+										<li><a href="#">Horaire des messes</a></li>
+										<li><a href="#">Homélies</a></li>
+										<li><a href="#">Prières&nbsp;de&nbsp;guérison</a></li>
+										<li><a href="#">Événements</a></li>
+										<li><a href="#">Témoignage</a></li>
+										<li><a href="#">Galerie</a></li>
+								
+									{# ---------- KINYARWANDA ---------- #}
+									{% elif request.session.lang == "rw" %}
+										<li><a href="{% url 'base:home' %}">Ahabanza</a></li>
+										<li><a href="#">Igihe cya Misa</a></li>
+										<li><a href="#">Inyigisho</a></li>
+										<li><a href="#">Amasengesho yo&nbsp;gukiza</a></li>
+										<li><a href="#">Ibikorwa</a></li>
+										<li><a href="#">Ubuhamya</a></li>
+										<li><a href="#">Amashusho</a></li>
+								
+									{# ---------- KISWAHILI ---------- #}
+									{% elif request.session.lang == "sw" %}
+										<li><a href="{% url 'base:home' %}">Nyumbani</a></li>
+										<li><a href="#">Ratiba ya&nbsp;Misa</a></li>
+										<li><a href="#">Mahubiri</a></li>
+										<li><a href="#">Sala za&nbsp;Uponyaji</a></li>
+										<li><a href="#">Matukio</a></li>
+										<li><a href="#">Ushuhuda</a></li>
+										<li><a href="#">Picha</a></li>
+									{% endif %}
 								</ul>
 							</div>
 							<div class="mobile-footer px-20 py-20 border-top-light js-mobile-footer"></div>
