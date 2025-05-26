@@ -57,7 +57,15 @@
                                     <path fill="none" d="M0 0h36v36H0z" />
                                 </svg>
 								<span class="js-language-mainTitle">
-									English
+									{%  if   request.session.lang == "fr" %}
+										Français
+									{% elif request.session.lang == "rw" %}
+										Kinyarwanda
+									{% elif request.session.lang == "sw" %}
+										Kiswahili
+									{% else %}
+										English
+									{% endif %}
 								</span>
 								<i class="icon-chevron-sm-down text-7 ml-15"></i>
 							</button>
