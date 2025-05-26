@@ -1,77 +1,195 @@
 <footer class="footer -type-1">
 	<div class="container">
 		<div class="pt-60 pb-60">
-			<div class="row y-gap-40 justify-between xl:justify-start">
-				<div class="col-xl-2 col-lg-4 col-sm-6">
-					<h5 class="text-16 fw-500 mb-30">Contact Us</h5>
-
-					<div class="mt-30">
-						<div class="text-14 mt-30">Toll Free Customer Care</div>
-						<a href="#" class="text-18 fw-500 text-blue-1 mt-5">+250 788 888 888</a>
-					</div>
-
-					<div class="mt-35">
-						<div class="text-14 mt-30">Need live support?</div>
-						<a href="#" class="text-18 fw-500 text-blue-1 mt-5">info@smruhango.rw</a>
-					</div>
+		<div class="row y-gap-40 justify-between xl:justify-start">
+	
+			<!-- Contact Us Block -->
+			<div class="col-xl-2 col-lg-4 col-sm-6">
+			<h5 class="text-16 fw-500 mb-30">
+				{% if request.session.lang == "fr" %}
+				Contactez-nous
+				{% elif request.session.lang == "rw" %}
+				Hamagara
+				{% elif request.session.lang == "sw" %}
+				Wasiliana nasi
+				{% else %}
+				Contact Us
+				{% endif %}
+			</h5>
+	
+			<div class="mt-30">
+				<div class="text-14 mt-30">
+				{% if request.session.lang == "fr" %}
+					Service client gratuit
+				{% elif request.session.lang == "rw" %}
+					Serivisi y'abakiriya Ubuntu
+				{% elif request.session.lang == "sw" %}
+					Huduma kwa Wateja bila malipo
+				{% else %}
+					Toll Free Customer Care
+				{% endif %}
 				</div>
-
-				<div class="col-xl-2 col-lg-4 col-sm-6">
-					<h5 class="text-16 fw-500 mb-30">Who We Are</h5>
-					<div class="d-flex y-gap-10 flex-column">
-						<a href="#">About Us</a>
-					</div>
+				<a href="#" class="text-18 fw-500 text-blue-1 mt-5">+250 788 888 888</a>
+			</div>
+	
+			<div class="mt-35">
+				<div class="text-14 mt-30">
+				{% if request.session.lang == "fr" %}
+					Besoin d'assistance en direct&nbsp;?
+				{% elif request.session.lang == "rw" %}
+					Ukeneye ubufasha bw'ako kanya?
+				{% elif request.session.lang == "sw" %}
+					Unahitaji msaada wa moja kwa moja?
+				{% else %}
+					Need live support?
+				{% endif %}
 				</div>
-
-				<div class="col-xl-2 col-lg-4 col-sm-6">
-					<h5 class="text-16 fw-500 mb-30">Support</h5>
-					<div class="d-flex y-gap-10 flex-column">
-						<a href="#">Contact</a>
-					</div>
+				<a href="#" class="text-18 fw-500 text-blue-1 mt-5">info@smruhango.rw</a>
+			</div>
+			</div>
+	
+			<!-- Who We Are Block -->
+			<div class="col-xl-2 col-lg-4 col-sm-6">
+			<h5 class="text-16 fw-500 mb-30">
+				{% if request.session.lang == "fr" %}
+				Qui sommes-nous
+				{% elif request.session.lang == "rw" %}
+				Turi bande
+				{% elif request.session.lang == "sw" %}
+				Sisi ni nani
+				{% else %}
+				Who We Are
+				{% endif %}
+			</h5>
+			<div class="d-flex y-gap-10 flex-column">
+				<a href="{% url 'base:home' %}">
+				{% if request.session.lang == "fr" %}
+					À propos de nous
+				{% elif request.session.lang == "rw" %}
+					Ibyerekeye Twebwe
+				{% elif request.session.lang == "sw" %}
+					Kuhusu Sisi
+				{% else %}
+					About Us
+				{% endif %}
+				</a>
+			</div>
+			</div>
+	
+			<!-- Support Block -->
+			<div class="col-xl-2 col-lg-4 col-sm-6">
+			<h5 class="text-16 fw-500 mb-30">
+				{% if request.session.lang == "fr" %}
+				Support
+				{% elif request.session.lang == "rw" %}
+				Inkunga
+				{% elif request.session.lang == "sw" %}
+				Msaada
+				{% else %}
+				Support
+				{% endif %}
+			</h5>
+			<div class="d-flex y-gap-10 flex-column">
+				<a href="#">
+				{% if request.session.lang == "fr" %}
+					Contact
+				{% elif request.session.lang == "rw" %}
+					Tuvugishe
+				{% elif request.session.lang == "sw" %}
+					Wasiliana
+				{% else %}
+					Contact
+				{% endif %}
+				</a>
+			</div>
+			</div>
+	
+			<!-- Other Services Block -->
+			<div class="col-xl-2 col-lg-4 col-sm-6">
+			<h5 class="text-16 fw-500 mb-30">
+				{% if request.session.lang == "fr" %}
+				Autres services
+				{% elif request.session.lang == "rw" %}
+				Serivisi zindi
+				{% elif request.session.lang == "sw" %}
+				Huduma Nyingine
+				{% else %}
+				Other Services
+				{% endif %}
+			</h5>
+			<div class="d-flex y-gap-10 flex-column">
+				<a href="#">
+				{% if request.session.lang == "fr" %}
+					Réservation de chambre
+				{% elif request.session.lang == "rw" %}
+					Rezervasiyo y’icyumba
+				{% elif request.session.lang == "sw" %}
+					Uhifadhi wa Chumba
+				{% else %}
+					Room Booking
+				{% endif %}
+				</a>
+			</div>
+			</div>
+	
+		</div>
+		</div>
+	
+		<!-- Bottom Bar -->
+		<div class="py-20 border-top-light">
+		<div class="row justify-between items-center y-gap-10">
+			<div class="col-auto">
+			<div class="row x-gap-30 y-gap-10">
+				<div class="col-auto">
+				<div class="d-flex items-center">
+					© 2025 SM Ruhango, Developed by
+					<a href="https://www.nexcodes.dev" target="_blank"
+					 style="font-weight: bold; margin-left: 3px;">
+					NE<span style="color: red;">X</span>CODE
+					</a>.
 				</div>
-
-				<div class="col-xl-2 col-lg-4 col-sm-6">
-					<h5 class="text-16 fw-500 mb-30">Other Services</h5>
-					<div class="d-flex y-gap-10 flex-column">
-						<a href="#">Room Booking</a>
-					</div>
 				</div>
+				<div class="col-auto">
+				<div class="d-flex x-gap-15">
+					<a href="#">
+					{% if request.session.lang == "fr" %}Confidentialité
+					{% elif request.session.lang == "rw" %}Amabanga
+					{% elif request.session.lang == "sw" %}Faragha
+					{% else %}Privacy
+					{% endif %}
+					</a>
+					<a href="#">
+					{% if request.session.lang == "fr" %}Conditions
+					{% elif request.session.lang == "rw" %}Amategeko
+					{% elif request.session.lang == "sw" %}Masharti
+					{% else %}Terms
+					{% endif %}
+					</a>
+					<a href="#">
+					{% if request.session.lang == "fr" %}Plan du site
+					{% elif request.session.lang == "rw" %}Mapa y’urubuga
+					{% elif request.session.lang == "sw" %}Ramani ya Tovuti
+					{% else %}Site Map
+					{% endif %}
+					</a>
+				</div>
+				</div>
+			</div>
+			</div>
+			<div class="col-auto">
+			<div class="row y-gap-10 items-center">
+				<div class="col-auto">
+				<div class="d-flex x-gap-20 items-center">
+					<a href="#"><i class="icon-facebook text-14"></i></a>
+					<a href="#"><i class="icon-twitter text-14"></i></a>
+					<a href="#"><i class="icon-instagram text-14"></i></a>
+					<a href="#"><i class="icon-linkedin text-14"></i></a>
+				</div>
+				</div>
+			</div>
 			</div>
 		</div>
-
-		<div class="py-20 border-top-light">
-			<div class="row justify-between items-center y-gap-10">
-				<div class="col-auto">
-					<div class="row x-gap-30 y-gap-10">
-						<div class="col-auto">
-							<div class="d-flex items-center">
-								© 2025 SM Ruhango, Developed by <a href="https://www.nexcodes.dev" target="_blank" style="font-weight: bold; margin-left: 3px;">NE<span style="color: red;">X</span>CODE</a>.
-							</div>
-						</div>
-
-						<div class="col-auto">
-							<div class="d-flex x-gap-15">
-								<a href="#">Privacy</a>
-								<a href="#">Terms</a>
-								<a href="#">Site Map</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-auto">
-					<div class="row y-gap-10 items-center">
-						<div class="col-auto">
-							<div class="d-flex x-gap-20 items-center">
-								<a href="#"><i class="icon-facebook text-14"></i></a>
-								<a href="#"><i class="icon-twitter text-14"></i></a>
-								<a href="#"><i class="icon-instagram text-14"></i></a>
-								<a href="#"><i class="icon-linkedin text-14"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </footer>
+	
