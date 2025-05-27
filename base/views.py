@@ -21,7 +21,13 @@ def change_language(request: HttpRequest, lang_code: str) -> HttpResponse:
     return redirect(request.META.get("HTTP_REFERER", "/"))
 
 def home(request):
-    return render(request, 'pages/index.html')
+    masses = massSchedule.objects.all().order_by('-id')[:4]
+
+    context = {
+        masses: 'masses'
+    }
+
+    return render(request, 'pages/index.html', context)
 
 def massSchedule(request):
     return render(request, 'pages/mass-schedule.html')
