@@ -1,6 +1,7 @@
 from base.models import *
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 SUPPORTED_LANGS = {
     "en": "English",
@@ -31,7 +32,20 @@ def home(request):
     return render(request, 'pages/index.html', context)
 
 def massSchedule(request):
-    schedules = MassSchedule.objects.all().order_by('-id')
+    """
+    Fetch MassSchedule entries in reverse insertion order,
+    paginate at 12 per page, and render the schedule page.
+    """
+    schedule_list = MassSchedule.objects.all().order_by('-id')
+    paginator = Paginator(schedule_list, 3)  # 12 items per page
+    page = request.GET.get('page', 1)
+
+    try:
+        schedules = paginator.page(page)
+    except PageNotAnInteger:
+        schedules = paginator.page(1)
+    except EmptyPage:
+        schedules = paginator.page(paginator.num_pages)
 
     context = {
         'schedules': schedules
