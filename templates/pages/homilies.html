@@ -1,72 +1,132 @@
 {% extends 'layouts/app.html' %}
-
+{% load static %}
 {% block content %}
+
 <section class="layout-pt-md layout-pb-md">
-    <div data-anim-wrap class="container">
-        <div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
-            <div class="col-auto">
-                <div class="sectionTitle -md">
-                    <h2 class="sectionTitle__title">
-                        {% if request.session.lang == "en" or request.session.lang == None %}
-                            Homilies
-                        {% elif request.session.lang == "fr" %}
-                            Homélies
-                        {% elif request.session.lang == "rw" %}
-                            Inyigisho
-                        {% elif request.session.lang == "sw" %}
-                            Mahubiri
-                        {% endif %}
-                    </h2>
-                    <p class=" sectionTitle__text mt-5 sm:mt-0">
-                        
-                    </p>
-                </div>
-            </div>
-            <div class="col-auto">
-                <a href="#" class="button -md -blue-1 bg-blue-1-05 text-blue-1">
-                    More <div class="icon-arrow-top-right ml-15"></div>
-                </a>
-            </div>
-        </div>
-        <div class="row y-gap-30 pt-40 sm:pt-20">
-            <div data-anim-child="slide-up delay-3" class="col-xl-3 col-lg-3 col-sm-6">
-                <a href="#" class="hotelsCard -type-1 ">
-                    <div class="hotelsCard__image">
-                        <div class="cardImage ratio ratio-1:1">
-                            <div class="cardImage__content">
-                                <img class="rounded-4 col-12" src="img/hotels/1.png" alt="image">
-                            </div>
-                            <div class="cardImage__wishlist">
-                                <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
-                                    <i class="icon-heart text-12"></i>
-                                </button>
-                            </div>
-                            <div class="cardImage__leftBadge">
-                                <div class="py-5 px-15 rounded-right-4 text-12 lh-16 fw-500 uppercase bg-dark-1 text-white">
-                                    Breakfast included
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hotelsCard__content mt-10">
-                        <h4 class="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
-                            <span>The Montcalm At Brewery London City</span>
-                        </h4>
-                        <p class="text-light-1 lh-14 text-14 mt-5">Westminster Borough, London</p>
-                        <div class="d-flex items-center mt-20">
-                            <div class="flex-center bg-blue-1 rounded-4 size-30 text-12 fw-600 text-white">4.8</div>
-                            <div class="text-14 text-dark-1 fw-500 ml-10">Exceptional</div>
-                            <div class="text-14 text-light-1 ml-10">3,014 reviews</div>
-                        </div>
-                        <div class="mt-5">
-                            <div class="fw-500">
-                                Starting from <span class="text-blue-1">US$72</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
+	<div data-anim-wrap class="container">
+		<div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
+			<div class="col-auto">
+				<div class="sectionTitle -md">
+					<h2 class="sectionTitle__title">
+						{% if request.session.lang == "fr" %}
+							Homélies
+						{% elif request.session.lang == "rw" %}
+							Inyigisho
+						{% elif request.session.lang == "sw" %}
+							Mahubiri
+						{% else %}
+							Homilies
+						{% endif %}
+					</h2>
+				</div>
+			</div>
+		</div>
+
+		<div class="row y-gap-30 pt-40 sm:pt-20">
+			{% for homily in page_obj %}
+				<div data-anim-child="slide-up delay-{{ forloop.counter }}" class="col-xl-3 col-lg-3 col-sm-6">
+					<div class="hotelsCard -type-1">
+						<div class="hotelsCard__image">
+							<div class="cardImage ratio ratio-1:1">
+								<div class="cardImage__content">
+									{% if homily.image %}
+										<img class="rounded-4 col-12" src="{{ homily.image.url }}" alt="Homily image">
+									{% else %}
+										<img class="rounded-4 col-12" src="{% static 'img/placeholder.png' %}" alt="No image">
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<div class="hotelsCard__content mt-10">
+							<h4 class="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
+								{% if request.session.lang == "fr" %}
+									{{ homily.title_fr }}
+								{% elif request.session.lang == "rw" %}
+									{{ homily.title_rw }}
+								{% elif request.session.lang == "sw" %}
+									{{ homily.title_sw }}
+								{% else %}
+									{{ homily.title_en }}
+								{% endif %}
+							</h4>
+							<p class="text-light-1 lh-14 text-14 mt-5">
+								{% if request.session.lang == "fr" %}
+									{{ homily.content_fr|truncatewords:20 }}
+								{% elif request.session.lang == "rw" %}
+									{{ homily.content_rw|truncatewords:20 }}
+								{% elif request.session.lang == "sw" %}
+									{{ homily.content_sw|truncatewords:20 }}
+								{% else %}
+									{{ homily.content_en|truncatewords:20 }}
+								{% endif %}
+							</p>
+						</div>
+					</div>
+				</div>
+			{% empty %}
+				<div class="col-12 text-center text-light-1">
+					{% if request.session.lang == "fr" %}
+						Aucune homélie disponible.
+					{% elif request.session.lang == "rw" %}
+						Nta nyigisho ziboneka.
+					{% elif request.session.lang == "sw" %}
+						Hakuna mahubiri zinapatikana.
+					{% else %}
+						No homilies available.
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+
+		<!-- pagination -->
+		<div class="border-top-light mt-30 pt-30">
+			<div class="row x-gap-10 y-gap-20 justify-between md:justify-center">
+				<!-- prev -->
+				<div class="col-auto md:order-1">
+					{% if page_obj.has_previous %}
+						<a href="?page={{ page_obj.previous_page_number }}" class="button -blue-1 size-40 rounded-full border-light">
+							<i class="icon-chevron-left text-12"></i>
+						</a>
+					{% else %}
+						<button class="button -blue-1 size-40 rounded-full border-light" disabled>
+							<i class="icon-chevron-left text-12"></i>
+						</button>
+					{% endif %}
+				</div>
+
+				<!-- page numbers ±3 -->
+				<div class="col-md-auto md:order-3">
+					<div class="row x-gap-20 y-gap-20 items-center">
+						{% for num in page_range %}
+							{% if page_obj.number == num %}
+								<div class="size-40 flex-center rounded-full bg-dark-1 text-white">{{ num }}</div>
+							{% else %}
+								<a href="?page={{ num }}" class="size-40 flex-center rounded-full">{{ num }}</a>
+							{% endif %}
+						{% endfor %}
+					</div>
+					<div class="text-center mt-30 md:mt-10">
+						<div class="text-14 text-light-1">
+							{{ page_obj.start_index }} – {{ page_obj.end_index }} of {{ page_obj.paginator.count }}
+						</div>
+					</div>
+				</div>
+
+				<!-- next -->
+				<div class="col-auto md:order-2">
+					{% if page_obj.has_next %}
+						<a href="?page={{ page_obj.next_page_number }}" class="button -blue-1 size-40 rounded-full border-light">
+							<i class="icon-chevron-right text-12"></i>
+						</a>
+					{% else %}
+						<button class="button -blue-1 size-40 rounded-full border-light" disabled>
+							<i class="icon-chevron-right text-12"></i>
+						</button>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
+
 {% endblock content %}
