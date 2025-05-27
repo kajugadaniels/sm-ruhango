@@ -4,18 +4,15 @@
 
 <section class="layout-pt-md layout-pb-md">
 	<div data-anim-wrap class="container">
+
 		<div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
 			<div class="col-auto">
 				<div class="sectionTitle -md">
 					<h2 class="sectionTitle__title">
-						{% if request.session.lang == "fr" %}
-							Homélies
-						{% elif request.session.lang == "rw" %}
-							Inyigisho
-						{% elif request.session.lang == "sw" %}
-							Mahubiri
-						{% else %}
-							Homilies
+						{% if request.session.lang == "fr" %}Homélies
+						{% elif request.session.lang == "rw" %}Inyigisho
+						{% elif request.session.lang == "sw" %}Mahubiri
+						{% else %}Homilies
 						{% endif %}
 					</h2>
 				</div>
@@ -26,6 +23,8 @@
 			{% for homily in page_obj %}
 				<div data-anim-child="slide-up delay-{{ forloop.counter }}" class="col-xl-3 col-lg-3 col-sm-6">
 					<div class="hotelsCard -type-1">
+
+						<!-- image -->
 						<div class="hotelsCard__image">
 							<div class="cardImage ratio ratio-1:1">
 								<div class="cardImage__content">
@@ -37,42 +36,25 @@
 								</div>
 							</div>
 						</div>
+
+						<!-- title & excerpt -->
 						<div class="hotelsCard__content mt-10">
 							<h4 class="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
-								{% if request.session.lang == "fr" %}
-									{{ homily.title_fr }}
-								{% elif request.session.lang == "rw" %}
-									{{ homily.title_rw }}
-								{% elif request.session.lang == "sw" %}
-									{{ homily.title_sw }}
-								{% else %}
-									{{ homily.title_en }}
-								{% endif %}
+								{{ homily.localized_title }}
 							</h4>
 							<p class="text-light-1 lh-14 text-14 mt-5">
-								{% if request.session.lang == "fr" %}
-									{{ homily.content_fr|truncatewords:20 }}
-								{% elif request.session.lang == "rw" %}
-									{{ homily.content_rw|truncatewords:20 }}
-								{% elif request.session.lang == "sw" %}
-									{{ homily.content_sw|truncatewords:20 }}
-								{% else %}
-									{{ homily.content_en|truncatewords:20 }}
-								{% endif %}
+								{{ homily.localized_content|truncatewords:20 }}
 							</p>
 						</div>
+
 					</div>
 				</div>
 			{% empty %}
 				<div class="col-12 text-center text-light-1">
-					{% if request.session.lang == "fr" %}
-						Aucune homélie disponible.
-					{% elif request.session.lang == "rw" %}
-						Nta nyigisho ziboneka.
-					{% elif request.session.lang == "sw" %}
-						Hakuna mahubiri zinapatikana.
-					{% else %}
-						No homilies available.
+					{% if request.session.lang == "fr" %}Aucune homélie disponible.
+					{% elif request.session.lang == "rw" %}Nta nyigisho ziboneka.
+					{% elif request.session.lang == "sw" %}Hakuna mahubiri zinapatikana.
+					{% else %}No homilies available.
 					{% endif %}
 				</div>
 			{% endfor %}
@@ -81,7 +63,8 @@
 		<!-- pagination -->
 		<div class="border-top-light mt-30 pt-30">
 			<div class="row x-gap-10 y-gap-20 justify-between md:justify-center">
-				<!-- prev -->
+
+				<!-- previous -->
 				<div class="col-auto md:order-1">
 					{% if page_obj.has_previous %}
 						<a href="?page={{ page_obj.previous_page_number }}" class="button -blue-1 size-40 rounded-full border-light">
@@ -94,7 +77,7 @@
 					{% endif %}
 				</div>
 
-				<!-- page numbers ±3 -->
+				<!-- page numbers window -->
 				<div class="col-md-auto md:order-3">
 					<div class="row x-gap-20 y-gap-20 items-center">
 						{% for num in page_range %}
@@ -124,8 +107,10 @@
 						</button>
 					{% endif %}
 				</div>
+
 			</div>
 		</div>
+
 	</div>
 </section>
 
