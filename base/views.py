@@ -21,10 +21,10 @@ def change_language(request: HttpRequest, lang_code: str) -> HttpResponse:
     return redirect(request.META.get("HTTP_REFERER", "/"))
 
 def home(request):
-    masses = massSchedule.objects.all().order_by('-id')[:4]
+    schedules = massSchedule.objects.all().order_by('-id')[:4]
 
     context = {
-        masses: 'masses'
+        schedules: 'schedules'
     }
 
     return render(request, 'pages/index.html', context)
