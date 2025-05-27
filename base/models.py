@@ -1,4 +1,6 @@
+import os
 from django.db import models
+from django.utils.text import slugify
 from imagekit.processors import ResizeToFill
 from imagekit.models import ProcessedImageField
 from ckeditor_uploader.fields import RichTextUploadingField
