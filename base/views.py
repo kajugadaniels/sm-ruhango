@@ -56,7 +56,33 @@ def massSchedule(request):
     return render(request, 'pages/mass-schedule.html', context)
 
 def homilies(request):
-    return render(request, 'pages/homilies.html')
+    """
+    List homilies, newest first, paginated at 8 per page.
+    Only show page links within ±3 of the current page.
+    """
+    homily_list = Homily.objects.all().order_by('-published_at', '-created_at')
+    paginator = Paginator(homily_list, 8)
+    page_number = request.GET.get('page', 1)
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+
+    current = page_obj.number
+    total   = paginator.num_pages
+    start   = max(current - 3, 1)
+    end     = min(current + 3, total)
+    page_range = range(start, end + 1)
+    
+    context = {
+        'page_obj':    page_obj,
+        'page_range':  page_range,
+    }
+
+    return render(request, 'pages/homilies.html', context)
 
 def healingPrayers(request):
     return render(request, 'pages/healing-prayers.html')
