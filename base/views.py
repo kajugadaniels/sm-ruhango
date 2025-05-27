@@ -33,24 +33,33 @@ def home(request):
 
     return render(request, 'pages/index.html', context)
 
+
 def massSchedule(request):
     """
     Fetch MassSchedule entries in reverse insertion order,
-    paginate at 12 per page, and render the schedule page.
+    paginate at 12 per page, and render the schedule page
+    with a sliding window of ±3 page links.
     """
     schedule_list = MassSchedule.objects.all().order_by('-id')
-    paginator = Paginator(schedule_list, 12)
-    page = request.GET.get('page', 1)
+    paginator     = Paginator(schedule_list, 12)
+    page_number   = request.GET.get('page', 1)
 
     try:
-        schedules = paginator.page(page)
+        schedules = paginator.page(page_number)
     except PageNotAnInteger:
         schedules = paginator.page(1)
     except EmptyPage:
         schedules = paginator.page(paginator.num_pages)
 
+    current   = schedules.number
+    total     = paginator.num_pages
+    start     = max(current - 3, 1)
+    end       = min(current + 3, total)
+    page_range = range(start, end + 1)
+    
     context = {
-        'schedules': schedules
+        'schedules':  schedules,
+        'page_range': page_range,
     }
 
     return render(request, 'pages/mass-schedule.html', context)
