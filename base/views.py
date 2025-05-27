@@ -67,11 +67,10 @@ def massSchedule(request):
 def homilies(request):
     """
     List homilies, newest first, paginated at 8 per page.
-    Titles and content are pulled from the session’s lang code
-    into `localized_title` and `localized_content` on each Homily.
+    Only show page links within ±3 of the current page.
     """
     homily_list = Homily.objects.all().order_by('-published_at', '-created_at')
-    paginator   = Paginator(homily_list, 8)
+    paginator = Paginator(homily_list, 8)
     page_number = request.GET.get('page', 1)
 
     try:
@@ -81,29 +80,16 @@ def homilies(request):
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
 
-    # Pick the right fields for title & content
-    lang           = request.session.get('lang', 'en')
-    title_field    = f"title_{lang}"
-    content_field  = f"content_{lang}"
-
-    # Annotate each homily with localized_title & localized_content
-    for homily in page_obj:
-        homily.localized_title   = getattr(homily, title_field) or homily.title_en
-        homily.localized_content = getattr(homily, content_field) or homily.content_en
-
-    # Build sliding window of page links ±3
-    current   = page_obj.number
-    total     = paginator.num_pages
-    start     = max(current - 3, 1)
-    end       = min(current + 3, total)
+    current = page_obj.number
+    total   = paginator.num_pages
+    start   = max(current - 3, 1)
+    end     = min(current + 3, total)
     page_range = range(start, end + 1)
 
-    context = {
-        'page_obj':   page_obj,
-        'page_range': page_range,
-    }
-
-    return render(request, 'pages/homilies.html', context)
+    return render(request, 'pages/homilies.html', {
+        'page_obj':    page_obj,      # the Page instance
+        'page_range':  page_range,    # only ±3 pages
+    })
 
 def healingPrayers(request):
     return render(request, 'pages/healing-prayers.html')
