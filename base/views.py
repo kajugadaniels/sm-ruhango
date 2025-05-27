@@ -66,11 +66,11 @@ def massSchedule(request):
 
 def homilies(request):
     """
-    List homilies, newest first, paginated at 8 per page.
-    Only show page links within ±3 of the current page.
+    List homilies with per-session-language titles and content,
+    paginated at 8 per page, sliding window of ±3 pages.
     """
     homily_list = Homily.objects.all().order_by('-published_at', '-created_at')
-    paginator = Paginator(homily_list, 12)
+    paginator = Paginator(homily_list, 8)
     page_number = request.GET.get('page', 1)
 
     try:
@@ -80,6 +80,17 @@ def homilies(request):
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
 
+    # Determine which fields to use for the current session language
+    lang = request.session.get('lang', 'en')
+    title_field   = f"title_{lang}"
+    content_field = f"content_{lang}"
+
+    # Annotate each homily with .localized_title and .localized_content
+    for homily in page_obj:
+        homily.localized_title   = getattr(homily, title_field, homily.title_en)
+        homily.localized_content = getattr(homily, content_field, homily.content_en)
+
+    # Build the sliding page range ±3
     current = page_obj.number
     total   = paginator.num_pages
     start   = max(current - 3, 1)
@@ -87,8 +98,8 @@ def homilies(request):
     page_range = range(start, end + 1)
     
     context = {
-        'page_obj':    page_obj,
-        'page_range':  page_range,
+        'page_obj':   page_obj,
+        'page_range': page_range,
     }
 
     return render(request, 'pages/homilies.html', context)
