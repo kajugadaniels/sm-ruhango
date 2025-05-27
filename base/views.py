@@ -37,7 +37,7 @@ def massSchedule(request):
     paginate at 12 per page, and render the schedule page.
     """
     schedule_list = MassSchedule.objects.all().order_by('-id')
-    paginator = Paginator(schedule_list, 3)  # 12 items per page
+    paginator = Paginator(schedule_list, 12)
     page = request.GET.get('page', 1)
 
     try:
