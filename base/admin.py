@@ -62,3 +62,56 @@ class HomilyAdmin(admin.ModelAdmin):
             )
         return "(No image)"
     image_preview.short_description = 'Preview'
+
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    """
+    Admin interface for Event:
+    - Searchable multilingual fields
+    - Collapsible rich text descriptions
+    - Image preview
+    - Slug is read-only
+    """
+    list_display   = ('event_date', 'title_en', 'slug', 'image_preview')
+    list_filter    = ('event_date',)
+    search_fields  = (
+        'title_en','title_fr','title_rw','title_sw',
+        'description_en','description_fr','description_rw','description_sw'
+    )
+    ordering       = ('-event_date',)
+    list_per_page  = 20
+    readonly_fields = ('slug', 'image_preview')
+
+    fieldsets = (
+        ('Schedule', {
+            'fields': ('event_date', ('start_time', 'end_time')),
+            'description': 'When this event takes place.'
+        }),
+        ('Titles & Slug', {
+            'fields': (
+                'title_en','title_fr','title_rw','title_sw', 'slug'
+            ),
+            'description': 'Enter the title in each language; slug auto-generated.'
+        }),
+        ('Descriptions (rich text)', {
+            'classes': ('collapse',),
+            'fields': (
+                'description_en','description_fr',
+                'description_rw','description_sw'
+            ),
+            'description': 'Detailed event description per language.'
+        }),
+        ('Media', {
+            'fields': ('image','image_preview'),
+            'description': 'Upload a banner image; preview shown below.'
+        }),
+    )
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" width="150" style="object-fit: cover; border-radius:4px;" />',
+                obj.image.url
+            )
+        return "(No image)"
+    image_preview.short_description = 'Banner Preview'
