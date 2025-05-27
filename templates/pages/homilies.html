@@ -2,128 +2,163 @@
 {% load static %}
 {% block content %}
 
-<section class="layout-pt-md layout-pb-md">
-	<div data-anim-wrap class="container">
-		<div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
-			<div class="col-auto">
-				<div class="sectionTitle -md">
-					<h2 class="sectionTitle__title">
-						{% if request.session.lang == "fr" %}
-							Homélies
-						{% elif request.session.lang == "rw" %}
-							Inyigisho
-						{% elif request.session.lang == "sw" %}
-							Mahubiri
-						{% else %}
-							Homilies
-						{% endif %}
-					</h2>
-				</div>
-			</div>
-		</div>
+<section class="layout-pt-md layout-pb-lg">
+	<div class="container">
+		<div class="row y-gap-30">
+			<div class="col-xl-12 col-lg-12">
 
-		<div class="row y-gap-30 pt-40 sm:pt-20">
-			{% for homily in page_obj %}
-				<div data-anim-child="slide-up delay-{{ forloop.counter }}" class="col-xl-3 col-lg-3 col-sm-6">
-					<div class="hotelsCard -type-1">
-						<div class="hotelsCard__image">
-							<div class="cardImage ratio ratio-1:1">
-								<div class="cardImage__content">
-									{% if homily.image %}
-										<img class="rounded-4 col-12" src="{{ homily.image.url }}" alt="Homily image">
-									{% else %}
-										<img class="rounded-4 col-12" src="{% static 'https://th.bing.com/th/id/R.7e8731768b177cb71531b1a99f099b1d?rik=5DVLPzkPXrkxTA&pid=ImgRaw&r=0" alt="No image">
-									{% endif %}
+				<!-- Header with total count -->
+				<div class="row y-gap-10 items-center justify-between">
+					<div class="col-auto">
+						<div class="text-18">
+							<span class="fw-500">{{ page_obj.paginator.count }}</span>
+							{% if request.session.lang == "fr" %}
+								Homélies
+							{% elif request.session.lang == "rw" %}
+								Inyigisho
+							{% elif request.session.lang == "sw" %}
+								Mahubiri
+							{% else %}
+								Homilies
+							{% endif %}
+						</div>
+					</div>
+				</div>
+
+				<div class="mt-30"></div>
+
+				<!-- Homily list -->
+				<div class="row y-gap-30">
+					{% for homily in page_obj %}
+						<div class="col-12">
+							<div class="border-top-light pt-30">
+								<div class="row x-gap-20 y-gap-20">
+
+									<!-- Image -->
+									<div class="col-md-auto">
+										<div class="cardImage ratio ratio-1:1 w-250 md:w-1/1 rounded-4">
+											<div class="cardImage__content">
+												{% if homily.image %}
+													<img class="rounded-4 col-12" src="{{ homily.image.url }}" alt="Homily image">
+												{% else %}
+													<img class="rounded-4 col-12" src="https://th.bing.com/th/id/R.7e8731768b177cb71531b1a99f099b1d?rik=5DVLPzkPXrkxTA&pid=ImgRaw&r=0" alt="No image">
+												{% endif %}
+											</div>
+										</div>
+									</div>
+
+									<!-- Title & Excerpt -->
+									<div class="col-md">
+										<div class="text-14 lh-14 mb-5">
+											{{ homily.published_at|date:"F j, Y" }}
+										</div>
+										<h3 class="text-18 lh-16 fw-500">
+											{% if request.session.lang == "fr" %}
+												{{ homily.title_fr }}
+											{% elif request.session.lang == "rw" %}
+												{{ homily.title_rw }}
+											{% elif request.session.lang == "sw" %}
+												{{ homily.title_sw }}
+											{% else %}
+												{{ homily.title_en }}
+											{% endif %}
+										</h3>
+										<p class="text-14 lh-14 mt-5">
+											{% if request.session.lang == "fr" %}
+												{{ homily.content_fr|truncatewords:150 }}
+											{% elif request.session.lang == "rw" %}
+												{{ homily.content_rw|truncatewords:150 }}
+											{% elif request.session.lang == "sw" %}
+												{{ homily.content_sw|truncatewords:150 }}
+											{% else %}
+												{{ homily.content_en|truncatewords:150 }}
+											{% endif %}
+										</p>
+									</div>
+
+									<!-- Call to action -->
+									<div class="col-md-auto text-right md:text-left">
+										<a href="#" class="button -md -dark-1 bg-blue-1 text-white mt-24">
+											{% if request.session.lang == "fr" %}
+												Voir Détails
+											{% elif request.session.lang == "rw" %}
+												Reba ibisobanuro
+											{% elif request.session.lang == "sw" %}
+												Angalia Maelezo
+											{% else %}
+												View Detail
+											{% endif %}
+											<div class="icon-arrow-top-right ml-15"></div>
+										</a>
+									</div>
+
 								</div>
 							</div>
 						</div>
-						<div class="hotelsCard__content mt-10">
-							<h4 class="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
-								{% if request.session.lang == "fr" %}
-									{{ homily.title_fr }}
-								{% elif request.session.lang == "rw" %}
-									{{ homily.title_rw }}
-								{% elif request.session.lang == "sw" %}
-									{{ homily.title_sw }}
-								{% else %}
-									{{ homily.title_en }}
-								{% endif %}
-							</h4>
-							<p class="text-light-1 lh-14 text-14 mt-5">
-								{% if request.session.lang == "fr" %}
-									{{ homily.content_fr|truncatewords:20 }}
-								{% elif request.session.lang == "rw" %}
-									{{ homily.content_rw|truncatewords:20 }}
-								{% elif request.session.lang == "sw" %}
-									{{ homily.content_sw|truncatewords:20 }}
-								{% else %}
-									{{ homily.content_en|truncatewords:20 }}
-								{% endif %}
-							</p>
-						</div>
-					</div>
-				</div>
-			{% empty %}
-				<div class="col-12 text-center text-light-1">
-					{% if request.session.lang == "fr" %}
-						Aucune homélie disponible.
-					{% elif request.session.lang == "rw" %}
-						Nta nyigisho ziboneka.
-					{% elif request.session.lang == "sw" %}
-						Hakuna mahubiri zinapatikana.
-					{% else %}
-						No homilies available.
-					{% endif %}
-				</div>
-			{% endfor %}
-		</div>
-
-		<!-- pagination -->
-		<div class="border-top-light mt-30 pt-30">
-			<div class="row x-gap-10 y-gap-20 justify-between md:justify-center">
-				<!-- prev -->
-				<div class="col-auto md:order-1">
-					{% if page_obj.has_previous %}
-						<a href="?page={{ page_obj.previous_page_number }}" class="button -blue-1 size-40 rounded-full border-light">
-							<i class="icon-chevron-left text-12"></i>
-						</a>
-					{% else %}
-						<button class="button -blue-1 size-40 rounded-full border-light" disabled>
-							<i class="icon-chevron-left text-12"></i>
-						</button>
-					{% endif %}
-				</div>
-
-				<!-- page numbers ±3 -->
-				<div class="col-md-auto md:order-3">
-					<div class="row x-gap-20 y-gap-20 items-center">
-						{% for num in page_range %}
-							{% if page_obj.number == num %}
-								<div class="size-40 flex-center rounded-full bg-dark-1 text-white">{{ num }}</div>
+					{% empty %}
+						<div class="col-12 text-center text-light-1">
+							{% if request.session.lang == "fr" %}
+								Aucune homélie disponible.
+							{% elif request.session.lang == "rw" %}
+								Nta nyigisho ziboneka.
+							{% elif request.session.lang == "sw" %}
+								Hakuna mahubiri zinapatikana.
 							{% else %}
-								<a href="?page={{ num }}" class="size-40 flex-center rounded-full">{{ num }}</a>
+								No homilies available.
 							{% endif %}
-						{% endfor %}
-					</div>
-					<div class="text-center mt-30 md:mt-10">
-						<div class="text-14 text-light-1">
-							{{ page_obj.start_index }} – {{ page_obj.end_index }} of {{ page_obj.paginator.count }}
+						</div>
+					{% endfor %}
+				</div>
+
+				<!-- Pagination Controls -->
+				<div class="border-top-light mt-30 pt-30">
+					<div class="row x-gap-10 y-gap-20 justify-between md:justify-center">
+						<!-- Prev -->
+						<div class="col-auto md:order-1">
+							{% if page_obj.has_previous %}
+								<a href="?page={{ page_obj.previous_page_number }}" class="button -blue-1 size-40 rounded-full border-light">
+									<i class="icon-chevron-left text-12"></i>
+								</a>
+							{% else %}
+								<button class="button -blue-1 size-40 rounded-full border-light" disabled>
+									<i class="icon-chevron-left text-12"></i>
+								</button>
+							{% endif %}
+						</div>
+
+						<!-- Page Numbers (±3) -->
+						<div class="col-md-auto md:order-3">
+							<div class="row x-gap-20 y-gap-20 items-center">
+								{% for num in page_range %}
+									{% if page_obj.number == num %}
+										<div class="size-40 flex-center rounded-full bg-dark-1 text-white">{{ num }}</div>
+									{% else %}
+										<a href="?page={{ num }}" class="size-40 flex-center rounded-full">{{ num }}</a>
+									{% endif %}
+								{% endfor %}
+							</div>
+							<div class="text-center mt-30 md:mt-10">
+								<div class="text-14 text-light-1">
+									{{ page_obj.start_index }} – {{ page_obj.end_index }} of {{ page_obj.paginator.count }}
+								</div>
+							</div>
+						</div>
+
+						<!-- Next -->
+						<div class="col-auto md:order-2">
+							{% if page_obj.has_next %}
+								<a href="?page={{ page_obj.next_page_number }}" class="button -blue-1 size-40 rounded-full border-light">
+									<i class="icon-chevron-right text-12"></i>
+								</a>
+							{% else %}
+								<button class="button -blue-1 size-40 rounded-full border-light" disabled>
+									<i class="icon-chevron-right text-12"></i>
+								</button>
+							{% endif %}
 						</div>
 					</div>
 				</div>
 
-				<!-- next -->
-				<div class="col-auto md:order-2">
-					{% if page_obj.has_next %}
-						<a href="?page={{ page_obj.next_page_number }}" class="button -blue-1 size-40 rounded-full border-light">
-							<i class="icon-chevron-right text-12"></i>
-						</a>
-					{% else %}
-						<button class="button -blue-1 size-40 rounded-full border-light" disabled>
-							<i class="icon-chevron-right text-12"></i>
-						</button>
-					{% endif %}
-				</div>
 			</div>
 		</div>
 	</div>

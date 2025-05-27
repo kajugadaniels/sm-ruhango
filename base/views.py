@@ -70,7 +70,7 @@ def homilies(request):
     Only show page links within ±3 of the current page.
     """
     homily_list = Homily.objects.all().order_by('-published_at', '-created_at')
-    paginator = Paginator(homily_list, 8)
+    paginator = Paginator(homily_list, 6)
     page_number = request.GET.get('page', 1)
 
     try:
