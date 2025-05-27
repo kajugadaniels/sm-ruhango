@@ -20,42 +20,42 @@
 									{# ---------- ENGLISH ---------- #}
 									{% if request.session.lang == "en" or request.session.lang == None %}
 										<li><a href="{% url 'base:home' %}">Home</a></li>
-										<li><a href="#">Mass Schedule</a></li>
-										<li><a href="#">Homilies</a></li>
-										<li><a href="#">Healing Prayers</a></li>
-										<li><a href="#">Events</a></li>
-										<li><a href="#">Testimony</a></li>
-										<li><a href="#">Gallery</a></li>
+										<li><a href="{% url 'base:massSchedule' %}">Mass Schedule</a></li>
+										<li><a href="{% url 'base:homilies' %}">Homilies</a></li>
+										<li><a href="{% url 'base:healingPrayers' %}">Healing Prayers</a></li>
+										<li><a href="{% url 'base:events' %}">Events</a></li>
+										<li><a href="{% url 'base:testimonies' %}">Testimony</a></li>
+										<li><a href="{% url 'base:gallery' %}">Gallery</a></li>
 								
 									{# ---------- FRANÇAIS ---------- #}
 									{% elif request.session.lang == "fr" %}
 										<li><a href="{% url 'base:home' %}">Accueil</a></li>
-										<li><a href="#">Horaire des messes</a></li>
-										<li><a href="#">Homélies</a></li>
-										<li><a href="#">Prières&nbsp;de&nbsp;guérison</a></li>
-										<li><a href="#">Événements</a></li>
-										<li><a href="#">Témoignage</a></li>
-										<li><a href="#">Galerie</a></li>
+										<li><a href="{% url 'base:massSchedule' %}">Horaire des messes</a></li>
+										<li><a href="{% url 'base:homilies' %}">Homélies</a></li>
+										<li><a href="{% url 'base:healingPrayers' %}">Prières&nbsp;de&nbsp;guérison</a></li>
+										<li><a href="{% url 'base:events' %}">Événements</a></li>
+										<li><a href="{% url 'base:testimonies' %}">Témoignage</a></li>
+										<li><a href="{% url 'base:gallery' %}">Galerie</a></li>
 								
 									{# ---------- KINYARWANDA ---------- #}
 									{% elif request.session.lang == "rw" %}
 										<li><a href="{% url 'base:home' %}">Ahabanza</a></li>
-										<li><a href="#">Igihe cya Misa</a></li>
-										<li><a href="#">Inyigisho</a></li>
-										<li><a href="#">Amasengesho yo&nbsp;gukiza</a></li>
-										<li><a href="#">Ibikorwa</a></li>
-										<li><a href="#">Ubuhamya</a></li>
-										<li><a href="#">Amashusho</a></li>
+										<li><a href="{% url 'base:massSchedule' %}">Igihe cya Misa</a></li>
+										<li><a href="{% url 'base:homilies' %}">Inyigisho</a></li>
+										<li><a href="{% url 'base:healingPrayers' %}">Amasengesho yo&nbsp;gukiza</a></li>
+										<li><a href="{% url 'base:events' %}">Ibikorwa</a></li>
+										<li><a href="{% url 'base:testimonies' %}">Ubuhamya</a></li>
+										<li><a href="{% url 'base:gallery' %}">Amashusho</a></li>
 								
 									{# ---------- KISWAHILI ---------- #}
 									{% elif request.session.lang == "sw" %}
 										<li><a href="{% url 'base:home' %}">Nyumbani</a></li>
-										<li><a href="#">Ratiba ya&nbsp;Misa</a></li>
-										<li><a href="#">Mahubiri</a></li>
-										<li><a href="#">Sala za&nbsp;Uponyaji</a></li>
-										<li><a href="#">Matukio</a></li>
-										<li><a href="#">Ushuhuda</a></li>
-										<li><a href="#">Picha</a></li>
+										<li><a href="{% url 'base:massSchedule' %}">Ratiba ya&nbsp;Misa</a></li>
+										<li><a href="{% url 'base:homilies' %}">Mahubiri</a></li>
+										<li><a href="{% url 'base:healingPrayers' %}">Sala za&nbsp;Uponyaji</a></li>
+										<li><a href="{% url 'base:events' %}">Matukio</a></li>
+										<li><a href="{% url 'base:testimonies' %}">Ushuhuda</a></li>
+										<li><a href="{% url 'base:gallery' %}">Picha</a></li>
 									{% endif %}
 								</ul>
 							</div>
@@ -92,19 +92,19 @@
 					</div>
 					<div class="d-flex items-center ml-20 is-menu-opened-hide md:d-none">
 						{% if request.session.lang == "fr" %}
-							<a href="#" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
+							<a href="{% url 'base:donate' %}" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
 								Faire un don
 							</a>
 						{% elif request.session.lang == "rw" %}
-							<a href="#" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
+							<a href="{% url 'base:donate' %}" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
 								Tanga Inkunga
 							</a>
 						{% elif request.session.lang == "sw" %}
-							<a href="#" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
+							<a href="{% url 'base:donate' %}" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
 								Toa Mchango
 							</a>
 						{% else %}
-							<a href="#" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
+							<a href="{% url 'base:donate' %}" class="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white">
 								Donate
 							</a>
 						{% endif %}
