@@ -31,7 +31,13 @@ def home(request):
     return render(request, 'pages/index.html', context)
 
 def massSchedule(request):
-    return render(request, 'pages/mass-schedule.html')
+    schedules = MassSchedule.objects.all().order_by('-id')
+
+    context = {
+        'schedules': schedules
+    }
+
+    return render(request, 'pages/mass-schedule.html', context)
 
 def homilies(request):
     return render(request, 'pages/homilies.html')
