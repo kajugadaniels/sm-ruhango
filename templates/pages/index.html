@@ -9,7 +9,15 @@
                 <div class="col-auto">
                     <div class="sectionTitle -md">
                         <h2 class="sectionTitle__title">
-                            Mass Schedule
+                            {% if request.session.lang == "fr" %}
+                                Horaire des messes
+                            {% elif request.session.lang == "rw" %}
+                                Igihe cya Misa
+                            {% elif request.session.lang == "sw" %}
+                                Ratiba ya&nbsp;Misa
+                            {% else %}
+                                Mass Schedule
+                            {% endif %}
                         </h2>
                         <p class=" sectionTitle__text mt-5 sm:mt-0">
                             
@@ -18,7 +26,15 @@
                 </div>
                 <div class="col-auto">
                     <a href="{% url 'base:massSchedule' %}" class="button -md -blue-1 bg-blue-1-05 text-blue-1">
-                        More 
+                        {% if request.session.lang == "fr" %}
+                            Voir plus
+                        {% elif request.session.lang == "rw" %}
+                            Reba Byinshi
+                        {% elif request.session.lang == "sw" %}
+                            Tazama Zaidi
+                        {% else %}
+                            View More
+                        {% endif %}
                         <div class="icon-arrow-top-right ml-15"></div>
                     </a>
                 </div>
