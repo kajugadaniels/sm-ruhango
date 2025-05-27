@@ -18,17 +18,6 @@ class MassSchedule(models.Model):
         help_text="Morning or Evening"
     )
 
-    # YOU translate and fill these fields yourself:
-    title_en = models.CharField(max_length=255, help_text="Title in English")
-    title_fr = models.CharField(max_length=255, help_text="Titre en Français")
-    title_rw = models.CharField(max_length=255, help_text="Title mu Kinyarwanda")
-    title_sw = models.CharField(max_length=255, help_text="Title kwa Kiswahili")
-
-    description_en = models.TextField(blank=True, help_text="Description in English")
-    description_fr = models.TextField(blank=True, help_text="Description en Français")
-    description_rw = models.TextField(blank=True, help_text="Description mu Kinyarwanda")
-    description_sw = models.TextField(blank=True, help_text="Description kwa Kiswahili")
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
