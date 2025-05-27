@@ -25,7 +25,7 @@ def home(request):
     schedules = MassSchedule.objects.all()
 
     context = {
-        schedules: 'schedules'
+        'schedules': schedules
     }
 
     return render(request, 'pages/index.html', context)

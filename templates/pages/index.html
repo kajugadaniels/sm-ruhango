@@ -67,12 +67,18 @@
                                                         <div></div>
                                                         <div></div>
                                                     </div>
-                                                    <div class="text-15 lh-15 text-light-1 mt-10">MARCH 4</div>
+                                                    <div class="text-15 lh-15 text-light-1 mt-10">
+                                                        {{ schedule.date|date:"F j"|upper }}
+                                                    </div>
                                                 </div>
         
                                                 <div class="col-auto">
-                                                    <div class="lh-15 fw-500">22:00</div>
-                                                    <div class="text-15 lh-15 text-light-1">AM</div>
+                                                    <div class="lh-15 fw-500">
+                                                        {{ schedule.end_time|date:"H:i" }}
+                                                    </div>
+                                                    <div class="text-15 lh-15 text-light-1">
+                                                        {{ schedule.end_time|date:"A" }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -82,12 +88,22 @@
                                 <div class="col-auto">
                                     <div class="d-flex items-center">
                                         <div class="text-right mr-24">
-                                            <div class="lh-15 fw-500">Morning Mass</div>
+                                            <div class="lh-15 fw-500">
+                                                {% if request.session.lang == "fr" %}
+                                                    {% if schedule.mass_type == "morning" %}Messe du matin{% else %}Messe du soir{% endif %}
+                                                {% elif request.session.lang == "rw" %}
+                                                    {% if schedule.mass_type == "morning" %}Misa ya mu gitondo{% else %}Misa ya nimugoroba{% endif %}
+                                                {% elif request.session.lang == "sw" %}
+                                                    {% if schedule.mass_type == "morning" %}Misa ya asubuhi{% else %}Misa ya jioni{% endif %}
+                                                {% else %}
+                                                    {{ schedule.get_mass_type_display }}
+                                                {% endif %}
+                                            </div>
                                             <div class="text-15 lh-15 text-light-1"></div>
                                         </div>
-                                        <a href="#" class="button -outline-blue-1 px-30 h-50 text-blue-1">
+                                        {% comment %} <a href="#" class="button -outline-blue-1 px-30 h-50 text-blue-1">
                                             View Deal <div class="icon-arrow-top-right ml-15"></div>
-                                        </a>
+                                        </a> {% endcomment %}
                                     </div>
                                 </div>
                             </div>
