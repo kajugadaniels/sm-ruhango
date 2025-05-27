@@ -24,9 +24,11 @@ def change_language(request: HttpRequest, lang_code: str) -> HttpResponse:
 
 def home(request):
     schedules = MassSchedule.objects.all().order_by('-id')[:4]
+    homilies = Homily.objects.all().order_by('-id')[:4]
 
     context = {
-        'schedules': schedules
+        'schedules': schedules,
+        'homilies': homilies,
     }
 
     return render(request, 'pages/index.html', context)
