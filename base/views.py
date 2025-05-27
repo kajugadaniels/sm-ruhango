@@ -22,7 +22,7 @@ def change_language(request: HttpRequest, lang_code: str) -> HttpResponse:
     return redirect(request.META.get("HTTP_REFERER", "/"))
 
 def home(request):
-    schedules = MassSchedule.objects.all()
+    schedules = MassSchedule.objects.all().order_by('-id')[:4]
 
     context = {
         'schedules': schedules
