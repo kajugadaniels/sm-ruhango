@@ -86,10 +86,12 @@ def homilies(request):
     end     = min(current + 3, total)
     page_range = range(start, end + 1)
 
-    return render(request, 'pages/homilies.html', {
-        'page_obj':    page_obj,      # the Page instance
-        'page_range':  page_range,    # only ±3 pages
-    })
+    context = {
+        'page_obj':    page_obj,
+        'page_range':  page_range,
+    }
+
+    return render(request, 'pages/homilies.html', context)
 
 def healingPrayers(request):
     return render(request, 'pages/healing-prayers.html')
