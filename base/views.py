@@ -128,8 +128,17 @@ def events(request):
 
     return render(request, 'pages/events/index.html', context)
 
-def eventDetails(request):
-    return render(request, 'pages/events/show.html')
+def eventDetails(request, id):
+    """
+    Show a single Event’s full details.
+    """
+    event = get_object_or_404(Event, pk=id)
+
+    context = {
+        'event': event,
+    }
+
+    return render(request, 'pages/events/show.html', context)
 
 def testimonies(request):
     return render(request, 'pages/testimonies.html')
