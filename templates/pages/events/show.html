@@ -3,19 +3,19 @@
 
 {% block content %}
 <section data-anim="fade" class="d-flex items-center py-15 border-top-light">
-  <div class="container">
-    <div class="row y-gap-10 items-center justify-between">
-      <div class="col-auto">
-        <div class="row x-gap-10 y-gap-5 items-center text-14 text-light-1">
-          <div class="col-auto">
-            <div class="">Events</div>
-          </div>
-          <div class="col-auto">
-            <div class="">></div>
-          </div>
-          <div class="col-auto">
-            <div class="">
-            	{% if request.session.lang == "fr" %}
+	<div class="container">
+		<div class="row y-gap-10 items-center justify-between">
+			<div class="col-auto">
+				<div class="row x-gap-10 y-gap-5 items-center text-14 text-light-1">
+					<div class="col-auto">
+						<div class="">Events</div>
+					</div>
+					<div class="col-auto">
+						<div class="">></div>
+					</div>
+					<div class="col-auto">
+						<div class="">
+							{% if request.session.lang == "fr" %}
 					{{ event.title_fr }}
 				{% elif request.session.lang == "rw" %}
 					{{ event.title_rw }}
@@ -24,14 +24,14 @@
 				{% else %}
 					{{ event.title_en }}
 				{% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-      <div class="col-auto">
-        <a href="#" class="text-14 text-light-1">
-        	{% if request.session.lang == "fr" %}
+			<div class="col-auto">
+				<a href="#" class="text-14 text-light-1">
+					{% if request.session.lang == "fr" %}
 				{{ event.title_fr }}
 			{% elif request.session.lang == "rw" %}
 				{{ event.title_rw }}
@@ -40,76 +40,76 @@
 			{% else %}
 				{{ event.title_en }}
 			{% endif %}
-        </a>
-      </div>
-    </div>
-  </div>
+				</a>
+			</div>
+		</div>
+	</div>
 </section>
 <section data-anim="slide-up" class="layout-pt-md">
-  <div class="container">
-    <div class="row y-gap-40 justify-center text-center">
-      <div class="col-auto">
-        <h1 class="text-30 fw-600">
-          {% if request.session.lang == "fr" %}
-            {{ event.title_fr }}
-          {% elif request.session.lang == "rw" %}
-            {{ event.title_rw }}
-          {% elif request.session.lang == "sw" %}
-            {{ event.title_sw }}
-          {% else %}
-            {{ event.title_en }}
-          {% endif %}
-        </h1>
-        <div class="text-15 text-light-1 mt-10">
-          {{ event.event_date|date:"F j, Y" }}
-          {% if event.start_time %}
-            • {{ event.start_time|time:"H:i" }}
-            {% if event.end_time %}–{{ event.end_time|time:"H:i" }}{% endif %}
-          {% endif %}
-        </div>
-      </div>
+	<div class="container">
+		<div class="row y-gap-40 justify-center text-center">
+			<div class="col-auto">
+				<h1 class="text-30 fw-600">
+					{% if request.session.lang == "fr" %}
+						{{ event.title_fr }}
+					{% elif request.session.lang == "rw" %}
+						{{ event.title_rw }}
+					{% elif request.session.lang == "sw" %}
+						{{ event.title_sw }}
+					{% else %}
+						{{ event.title_en }}
+					{% endif %}
+				</h1>
+				<div class="text-15 text-light-1 mt-10">
+					{{ event.event_date|date:"F j, Y" }}
+					{% if event.start_time %}
+						• {{ event.start_time|time:"H:i" }}
+						{% if event.end_time %}–{{ event.end_time|time:"H:i" }}{% endif %}
+					{% endif %}
+				</div>
+			</div>
 
-      <div class="col-12">
-          {% if event.image %}
-             <img src="{{ event.image.url }}" alt="{{ event.title_en }}" class="col-12 rounded-8">
-          {% endif %}
-      </div>
-    </div>
-  </div>
+			<div class="col-12">
+					{% if event.image %}
+						 <img src="{{ event.image.url }}" alt="{{ event.title_en }}" class="col-12 rounded-8">
+					{% endif %}
+			</div>
+		</div>
+	</div>
 </section>
 
 <section data-anim="slide-up" class="layout-pt-md layout-pb-md">
-  <div class="container">
-    <div class="row y-gap-30 justify-center">
-      <div class="col-xl-8 col-lg-10">
-        <div class="">
-          <div class="text-15 mt-20">
-            {% if request.session.lang == "fr" %}
-              {{ event.description_fr|safe }}
-            {% elif request.session.lang == "rw" %}
-              {{ event.description_rw|safe }}
-            {% elif request.session.lang == "sw" %}
-              {{ event.description_sw|safe }}
-            {% else %}
-              {{ event.description_en|safe }}
-            {% endif %}
-          </div>
-          <div class="mt-40">
-            <a href="{% url 'base:events' %}" class="button -outline-blue-1 px-30 h-50 text-blue-1">
-              {% if request.session.lang == "fr" %}
-                Retour aux événements
-              {% elif request.session.lang == "rw" %}
-                Subira ku bikorwa
-              {% elif request.session.lang == "sw" %}
-                Rudia kwa matukio
-              {% else %}
-                Back to Events
-              {% endif %}
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="container">
+		<div class="row y-gap-30 justify-center">
+			<div class="col-xl-8 col-lg-10">
+				<div class="">
+					<div class="text-15 mt-20">
+						{% if request.session.lang == "fr" %}
+							{{ event.description_fr|safe }}
+						{% elif request.session.lang == "rw" %}
+							{{ event.description_rw|safe }}
+						{% elif request.session.lang == "sw" %}
+							{{ event.description_sw|safe }}
+						{% else %}
+							{{ event.description_en|safe }}
+						{% endif %}
+					</div>
+					<div class="mt-40">
+						<a href="{% url 'base:events' %}" class="button -outline-blue-1 px-30 h-50 text-blue-1">
+							{% if request.session.lang == "fr" %}
+								Retour aux événements
+							{% elif request.session.lang == "rw" %}
+								Subira ku bikorwa
+							{% elif request.session.lang == "sw" %}
+								Rudia kwa matukio
+							{% else %}
+								Back to Events
+							{% endif %}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 {% endblock content %}
