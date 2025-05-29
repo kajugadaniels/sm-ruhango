@@ -101,7 +101,32 @@ def healingPrayers(request):
     return render(request, 'pages/healing-prayers.html')
 
 def events(request):
-    return render(request, 'pages/events/index.html')
+    """
+    Paginated Events listing.
+    """
+    event_list = Event.objects.all().order_by('-event_date', '-created_at')
+    paginator  = Paginator(event_list, 12)
+    page       = request.GET.get('page', 1)
+
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+
+    current    = page_obj.number
+    total      = paginator.num_pages
+    start      = max(current - 3, 1)
+    end        = min(current + 3, total)
+    page_range = range(start, end + 1)
+
+    context = {
+        'page_obj':   page_obj,
+        'page_range': page_range,
+    }
+
+    return render(request, 'pages/events/index.html', context)
 
 def eventDetails(request):
     return render(request, 'pages/events/show.html')
