@@ -110,7 +110,7 @@ class EventAdmin(admin.ModelAdmin):
     def image_preview(self, obj):
         if obj.image:
             return format_html(
-                '<img src="{}" width="150" style="object-fit: cover; border-radius:4px;" />',
+                '<img src="{}" width="30" style="object-fit: cover; border-radius:4px;" />',
                 obj.image.url
             )
         return "(No image)"
