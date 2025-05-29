@@ -23,16 +23,20 @@ def change_language(request: HttpRequest, lang_code: str) -> HttpResponse:
     return redirect(request.META.get("HTTP_REFERER", "/"))
 
 def home(request):
+    """
+    Home page: latest 4 MassSchedules, Homilies, and Events.
+    """
     schedules = MassSchedule.objects.all().order_by('-id')[:4]
-    homilies = Homily.objects.all().order_by('-id')[:4]
+    homilies  = Homily.objects.all().order_by('-id')[:4]
+    events    = Event.objects.all().order_by('-event_date', '-created_at')[:4]
 
     context = {
         'schedules': schedules,
-        'homilies': homilies,
+        'homilies':  homilies,
+        'events':    events,
     }
 
     return render(request, 'pages/index.html', context)
-
 
 def massSchedule(request):
     """
