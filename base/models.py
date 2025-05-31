@@ -468,3 +468,50 @@ class Gallery(models.Model):
 
     def __str__(self):
         return f"Gallery Item {self.id} - {self.caption_en[:30]}"
+
+def member_image_path(instance, filename):
+    """
+    Store member portraits under MEDIA_ROOT/members/<slugified_name>_<id><extension>.
+    """
+    base, ext = os.path.splitext(filename)
+    slug = slugify(instance.name)
+    return f"members/{slug}_{instance.id}{ext}"
+
+class Member(models.Model):
+    """
+    Church member on duty (e.g., Priest or Board Member).
+    Stores name, role, and a square-cropped portrait image.
+    """
+    ROLE_CHOICES = [
+        ('priest',      'Priest'),
+        ('board',       'Board Member'),
+    ]
+
+    name = models.CharField(
+        max_length=150,
+        help_text="Full name of the church member"
+    )
+    role = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICES,
+        help_text="Select the member’s role within the church"
+    )
+    image = ProcessedImageField(
+        upload_to=member_image_path,
+        processors=[ResizeToFill(400, 400)],  # always crop/resize to 400×400
+        format='JPEG',
+        options={'quality': 85},
+        blank=True,
+        null=True,
+        help_text="Portrait image; will be cropped/downsized to a 400×400 square"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = "Member"
+        verbose_name_plural = "Members"
+
+    def __str__(self):
+        return f"{self.name} ({self.get_role_display()})"
