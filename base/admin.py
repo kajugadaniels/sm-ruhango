@@ -115,3 +115,52 @@ class EventAdmin(admin.ModelAdmin):
             )
         return "(No image)"
     image_preview.short_description = 'Banner Preview'
+
+@admin.register(Testimony)
+class TestimonyAdmin(admin.ModelAdmin):
+    """
+    Admin interface for Testimony:
+    - Display name, email, type, status, and creation date
+    - Filter by type & status
+    - Inline preview/link for uploaded file
+    """
+    list_display   = ('name', 'email', 'testimony_type', 'status', 'created_at', 'file_link')
+    list_filter    = ('testimony_type', 'status', 'created_at')
+    search_fields  = ('name', 'email', 'content_text')
+    ordering       = ('-created_at',)
+    list_per_page  = 20
+
+    readonly_fields = ('file_link',)
+
+    fieldsets = (
+        ("Testimony Info", {
+            'fields': (
+                'name', 'email', 'testimony_type', 'status'
+            ),
+            'description': (
+                "Fill in the person’s name/email and select the testimony type. "
+                "Admin uses 'Status' to control publication."
+            )
+        }),
+        ("Content (one of the following)", {
+            'fields': (
+                'content_text', 'content_file', 'file_link'
+            ),
+            'description': (
+                "If the type is Text, fill in content_text. "
+                "If Audio or Video, upload under content_file. "
+                "File link is read-only and shows after upload."
+            )
+        }),
+    )
+
+    def file_link(self, obj):
+        """
+        Provide a clickable link for audio/video files, or indicate N/A if none.
+        """
+        if obj.content_file:
+            url = obj.content_file.url
+            filename = obj.content_file.name.split('/')[-1]
+            return format_html('<a href="{}" target="_blank">{}</a>', url, filename)
+        return "(No file)"
+    file_link.short_description = "Uploaded File"
