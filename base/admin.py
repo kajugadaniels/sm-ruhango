@@ -276,4 +276,5 @@ class RoomAdmin(admin.ModelAdmin):
                 first_image.image.url
             )
         return "(No image)"
+
     thumbnail_preview.short_description = 'Thumbnail'
