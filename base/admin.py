@@ -232,3 +232,48 @@ class RoomImageInline(admin.TabularInline):
     extra = 1
     readonly_fields = ('image_tag',)
     fields = ('image', 'alt_text', 'image_tag')
+
+@admin.register(Room)
+class RoomAdmin(admin.ModelAdmin):
+    """
+    Admin interface for Room:
+    - Manage title, slug, location, description, price, & amenities
+    - Inline RoomImage uploads
+    - Show thumbnail previews of room images
+    """
+    list_display   = ('title', 'location', 'price_per_night', 'thumbnail_preview')
+    list_filter    = ('location', 'amenities')
+    search_fields  = ('title', 'location', 'description')
+    ordering       = ('title',)
+    list_per_page  = 20
+
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'location', 'price_per_night'),
+            'description': 'Basic room details. Slug will be auto-generated.'
+        }),
+        ('Description', {
+            'fields': ('description',),
+            'classes': ('collapse',),
+            'description': 'Rich-text description of the room.'
+        }),
+        ('Amenities', {
+            'fields': ('amenities',),
+            'description': 'Select multiple amenities available in this room.'
+        }),
+    )
+    readonly_fields = ('slug',)
+    inlines = [RoomImageInline]
+
+    def thumbnail_preview(self, obj):
+        """
+        Show the first image as a small preview.
+        """
+        first_image = obj.images.first()
+        if first_image:
+            return format_html(
+                '<img src="{}" width="100" style="object-fit: cover; border-radius:4px;"/>',
+                first_image.image.url
+            )
+        return "(No image)"
+    thumbnail_preview.short_description = 'Thumbnail'
