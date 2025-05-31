@@ -278,3 +278,44 @@ class RoomAdmin(admin.ModelAdmin):
         return "(No image)"
 
     thumbnail_preview.short_description = 'Thumbnail'
+
+@admin.register(Gallery)
+class GalleryAdmin(admin.ModelAdmin):
+    """
+    Admin interface for Gallery:
+    - Show created_at, English caption, and a thumbnail
+    - Searchable multilingual captions
+    - Image preview
+    """
+    list_display    = ("created_at", "caption_en", "image_preview")
+    search_fields   = ("caption_en", "caption_fr", "caption_rw", "caption_sw")
+    ordering        = ("-created_at",)
+    list_filter     = ("created_at",)
+    readonly_fields = ("image_preview",)
+
+    fieldsets = (
+        (
+            "Captions",
+            {
+                "fields": ("caption_en", "caption_fr", "caption_rw", "caption_sw"),
+                "description": "Enter optional captions in English, French, Kinyarwanda, and Kiswahili.",
+            },
+        ),
+        (
+            "Image",
+            {
+                "fields": ("image", "image_preview"),
+                "description": "Upload the image for the gallery item; preview shown below.",
+            },
+        ),
+    )
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" width="150" style="object-fit: cover; border-radius:4px;" />',
+                obj.image.url,
+            )
+        return "(No image)"
+
+    image_preview.short_description = "Thumbnail"
