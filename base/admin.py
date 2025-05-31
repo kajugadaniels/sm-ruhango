@@ -223,3 +223,12 @@ class AmenityAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     ordering      = ('name',)
     list_per_page = 20
+
+class RoomImageInline(admin.TabularInline):
+    """
+    Inline for RoomImage to upload/display multiple images per room.
+    """
+    model = RoomImage
+    extra = 1
+    readonly_fields = ('image_tag',)
+    fields = ('image', 'alt_text', 'image_tag')
