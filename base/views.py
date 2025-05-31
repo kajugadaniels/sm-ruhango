@@ -25,20 +25,22 @@ def change_language(request: HttpRequest, lang_code: str) -> HttpResponse:
 def home(request):
     """
     Home page: latest 4 MassSchedules, Homilies, Events, Advertisements,
-    and 4 random Rooms (different on each page load).
+    4 random Rooms, and 4 latest Testimonies.
     """
     schedules = MassSchedule.objects.all().order_by("-id")[:4]
     homilies  = Homily.objects.all().order_by("-id")[:4]
     events    = Event.objects.all().order_by("-event_date", "-created_at")[:4]
     adverts   = Advertisement.objects.all().order_by("-published_at", "-created_at")[:4]
-    rooms = Room.objects.order_by("?")[:4]
+    rooms     = Room.objects.order_by("?")[:4]
+    testimonies = Testimony.objects.filter(status='published').order_by("-created_at")[:4]
 
     context = {
-        "schedules": schedules,
-        "homilies":  homilies,
-        "events":    events,
-        "adverts":   adverts,
-        "rooms":     rooms,
+        "schedules":   schedules,
+        "homilies":    homilies,
+        "events":      events,
+        "adverts":     adverts,
+        "rooms":       rooms,
+        "testimonies": testimonies,
     }
 
     return render(request, "pages/index.html", context)
