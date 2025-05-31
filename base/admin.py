@@ -213,3 +213,13 @@ class AdvertisementAdmin(admin.ModelAdmin):
             )
         return "(No image)"
     image_preview.short_description = "Image Preview"
+
+@admin.register(Amenity)
+class AmenityAdmin(admin.ModelAdmin):
+    """
+    Manage Amenity entries.
+    """
+    list_display  = ('name',)
+    search_fields = ('name',)
+    ordering      = ('name',)
+    list_per_page = 20
