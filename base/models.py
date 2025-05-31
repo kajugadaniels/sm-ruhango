@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.text import slugify
 from imagekit.processors import ResizeToFill
 from imagekit.models import ProcessedImageField
+from django.core.validators import FileExtensionValidator
 from ckeditor_uploader.fields import RichTextUploadingField
 
 class MassSchedule(models.Model):
@@ -160,3 +161,90 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.title_en} on {self.event_date.isoformat()}"
+
+def testimony_upload_path(instance, filename):
+    """
+    Files (audio/video) get saved under MEDIA_ROOT/testimonies/<type>/<name>_<timestamp><ext>
+    """
+    base, ext = os.path.splitext(filename)
+    safe_name = instance.name.replace(" ", "_")
+    return f"testimonies/{instance.testimony_type}/{safe_name}_{instance.id}{ext}"
+
+
+class Testimony(models.Model):
+    """
+    A model to capture user testimonies in text, audio, or video format.
+    Admin chooses whether a testimony is published or kept as draft.
+    """
+    # Type of testimony
+    TEXT  = "text"
+    AUDIO = "audio"
+    VIDEO = "video"
+    TYPE_CHOICES = [
+        (TEXT,  "Text"),
+        (AUDIO, "Audio"),
+        (VIDEO, "Video"),
+    ]
+
+    # Status (admin-only field)
+    DRAFT     = "draft"
+    PUBLISHED = "published"
+    STATUS_CHOICES = [
+        (DRAFT,     "Draft"),
+        (PUBLISHED, "Published"),
+    ]
+
+    # Who is giving the testimony
+    name  = models.CharField(
+        max_length=150,
+        help_text="Full name of the person giving the testimony",
+    )
+    email = models.EmailField(
+        help_text="Contact email of the testimony giver"
+    )
+
+    # What format: text vs audio vs video
+    testimony_type = models.CharField(
+        max_length=10,
+        choices=TYPE_CHOICES,
+        default=TEXT,
+        help_text="Select whether this is a text, audio, or video testimony",
+    )
+
+    # Content fields: only one will be used depending on testimony_type
+    content_text = models.TextField(
+        blank=True,
+        help_text="Enter the full text of the testimony (if type is Text)."
+    )
+
+    content_file = models.FileField(
+        upload_to=testimony_upload_path,
+        validators=[FileExtensionValidator(
+            allowed_extensions=['mp3', 'wav', 'mp4', 'mov']
+        )],
+        blank=True,
+        help_text=(
+            "Upload an audio (mp3/wav) or video (mp4/mov) file. "
+            "Required if type is Audio or Video."
+        )
+    )
+
+    # Admin-only published status
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default=DRAFT,
+        help_text="Set to Published when the testimony is approved to go live."
+    )
+
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Testimony"
+        verbose_name_plural = "Testimonies"
+
+    def __str__(self):
+        return f"{self.name} ({self.get_testimony_type_display()}) - {self.status.capitalize()}"
