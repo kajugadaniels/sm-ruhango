@@ -1,6 +1,7 @@
 import os
 from django.db import models
 from django.utils.text import slugify
+from django.utils.html import mark_safe
 from imagekit.processors import ResizeToFill
 from imagekit.models import ProcessedImageField
 from django.core.validators import FileExtensionValidator
