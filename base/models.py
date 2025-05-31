@@ -336,3 +336,54 @@ class Amenity(models.Model):
 
     def __str__(self):
         return self.name
+
+class Room(models.Model):
+    """
+    Represents a bookable room in the system.
+    """
+    title = models.CharField(
+        max_length=200,
+        help_text="Name/title of the room (e.g., Deluxe Suite, Standard Room)."
+    )
+    slug = models.SlugField(
+        max_length=255,
+        unique=True,
+        blank=True,
+        help_text="Auto-generated from title for URL references."
+    )
+    location = models.CharField(
+        max_length=255,
+        help_text="Physical location or building name (e.g., Main Building, Annex)."
+    )
+    description = RichTextUploadingField(
+        help_text="Detailed description of the room, amenities, and features."
+    )
+    price_per_night = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        help_text="Nightly rate in USD (decimal allowed, e.g., 149.99)."
+    )
+    amenities = models.ManyToManyField(
+        Amenity,
+        blank=True,
+        related_name='rooms',
+        help_text="Select all amenities available for this room."
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['title']
+        verbose_name = "Room"
+        verbose_name_plural = "Rooms"
+
+    def save(self, *args, **kwargs):
+        """
+        Generate slug automatically on first save.
+        """
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
