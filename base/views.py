@@ -145,6 +145,12 @@ def eventDetails(request, id):
 
     return render(request, 'pages/events/show.html', context)
 
+def rooms(request):
+    pass
+
+def roomDetails(request, id):
+    pass
+
 def testimonies(request):
     return render(request, 'pages/testimonies.html')
 
