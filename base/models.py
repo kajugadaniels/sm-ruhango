@@ -387,3 +387,41 @@ class Room(models.Model):
 
     def __str__(self):
         return self.title
+
+class RoomImage(models.Model):
+    """
+    Stores images for a Room; multiple RoomImage per Room.
+    """
+    room = models.ForeignKey(
+        Room,
+        on_delete=models.CASCADE,
+        related_name='images'
+    )
+    image = ProcessedImageField(
+        upload_to=room_image_upload_path,
+        processors=[ResizeToFill(800, 600)],
+        format='JPEG',
+        options={'quality': 85},
+        help_text="Upload room image; resized to 800×600."
+    )
+    alt_text = models.CharField(
+        max_length=150,
+        blank=True,
+        help_text="Alternative text for accessibility (e.g., 'View of Deluxe Suite')."
+    )
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-uploaded_at']
+        verbose_name = "Room Image"
+        verbose_name_plural = "Room Images"
+
+    def __str__(self):
+        return f"Image for {self.room.title} ({self.id})"
+
+    def image_tag(self):
+        """
+        Display a small thumbnail in admin.
+        """
+        return mark_safe(f'<img src="{self.image.url}" width="100" style="object-fit: cover;"/>')
+    image_tag.short_description = 'Thumbnail'
