@@ -494,4 +494,87 @@
             </div>
         </div>
     </section>
+
+    <section class="layout-pt-md layout-pb-md bg-light-2">
+    <div data-anim-wrap class="container">
+        <div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
+            <div class="col-auto">
+                <div class="sectionTitle -md">
+                    <h2 class="sectionTitle__title">
+                        {% if request.session.lang == "fr" %}
+                            Témoignages
+                        {% elif request.session.lang == "rw" %}
+                            Ubuhamya
+                        {% elif request.session.lang == "sw" %}
+                            Ushuhuda
+                        {% else %}
+                            Testimonies
+                        {% endif %}
+                    </h2>
+                </div>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'base:testimonies' %}" class="button -md -blue-1 bg-blue-1-05 text-blue-1">
+                    {% if request.session.lang == "fr" %}
+                        Voir plus
+                    {% elif request.session.lang == "rw" %}
+                        Reba byinshi
+                    {% elif request.session.lang == "sw" %}
+                        Tazama Zaidi
+                    {% else %}
+                        View More
+                    {% endif %}
+                    <div class="icon-arrow-top-right ml-15"></div>
+                </a>
+            </div>
+        </div>
+
+        <div class="row y-gap-30 pt-40 sm:pt-20">
+            {% for testimony in testimonies %}
+                <div data-anim-child="slide-up delay-{{ forloop.counter }}" class="col-xl-3 col-lg-3 col-sm-6">
+                    <div class="hotelsCard -type-1 p-20">
+                        <div class="hotelsCard__content">
+                            <h4 class="hotelsCard__title text-dark-1 text-18 lh-16 fw-600">
+                                {{ testimony.name }}
+                            </h4>
+                            <div class="text-14 text-light-1 mb-10">
+                                {{ testimony.get_type_display }}
+                            </div>
+                            <p class="text-light-1 lh-14 text-14">
+                                {% if testimony.testimony_type == 'text' %}
+                                    {{ testimony.content_text|truncatewords:30 }}
+                                {% else %}
+                                    {% if testimony.testimony_type == 'audio' %}
+                                        <audio controls>
+                                            <source src="{{ testimony.audio.url }}" type="audio/mpeg">
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    {% elif testimony.testimony_type == 'video' %}
+                                        <video controls width="100%">
+                                            <source src="{{ testimony.video.url }}" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    {% endif %}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center text-light-1">
+                    {% if request.session.lang == "fr" %}
+                        Aucun témoignage disponible.
+                    {% elif request.session.lang == "rw" %}
+                        Nta buhamya buboneka.
+                    {% elif request.session.lang == "sw" %}
+                        Hakuna ushuhuda unaopatikana.
+                    {% else %}
+                        No testimonies available.
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
 {% endblock content %}
