@@ -139,10 +139,15 @@
 					<div class="row x-gap-30 y-gap-10">
 						<div class="col-auto">
 							<div class="d-flex items-center">
-								© 2025 SM Ruhango, Developed by
-								<a href="https://www.nexcodes.dev" target="_blank"
-								 style="font-weight: bold; margin-left: 3px;">
-								NE<span style="color: red;">X</span>CODE
+								<p>
+			                        © <span id="currentYear"></span> SM Ruhango. Developed by
+			                        <a href="https://www.nexcodes.dev/" target="_blank" style="color: white;">
+			                            NE<span style="color: red; font-weight: bold;">X</span>CODE
+			                        </a>
+			                        <script>
+			                            document.getElementById("currentYear").textContent = new Date().getFullYear();
+			                        </script>
+			                    </p>
 							</div>
 						</div>
 
