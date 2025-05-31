@@ -164,3 +164,52 @@ class TestimonyAdmin(admin.ModelAdmin):
             return format_html('<a href="{}" target="_blank">{}</a>', url, filename)
         return "(No file)"
     file_link.short_description = "Uploaded File"
+
+@admin.register(Advertisement)
+class AdvertisementAdmin(admin.ModelAdmin):
+    """
+    Admin interface for Advertisement:
+    - Show publication date, English title, and image preview
+    - Filter by published_at date
+    - Search across all multilingual titles & contents
+    - Collapsible sections for content
+    """
+    list_display   = ('published_at', 'title_en', 'image_preview')
+    list_filter    = ('published_at',)
+    search_fields  = (
+        'title_en','title_fr','title_rw','title_sw',
+        'content_en','content_fr','content_rw','content_sw'
+    )
+    ordering       = ('-published_at', '-created_at')
+    list_per_page  = 20
+
+    readonly_fields = ('image_preview',)
+
+    fieldsets = (
+        ('Publication', {
+            'fields': ('published_at',),
+            'description': 'Set the date this advertisement goes live.'
+        }),
+        ('Titles (required)', {
+            'fields': ('title_en', 'title_fr', 'title_rw', 'title_sw'),
+            'description': 'Enter the advertisement title in each language.'
+        }),
+        ('Content (rich text)', {
+            'classes': ('collapse',),
+            'fields': ('content_en', 'content_fr', 'content_rw', 'content_sw'),
+            'description': 'Use CKEditor to craft the full ad copy in each language. Collapsed by default.'
+        }),
+        ('Banner Image', {
+            'fields': ('image', 'image_preview'),
+            'description': 'Upload the banner image; preview appears below.'
+        }),
+    )
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" width="30" style="object-fit: cover; border-radius:4px;" />',
+                obj.image.url
+            )
+        return "(No image)"
+    image_preview.short_description = "Image Preview"
