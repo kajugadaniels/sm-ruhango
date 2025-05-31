@@ -309,3 +309,30 @@ class Advertisement(models.Model):
     def __str__(self):
         date_str = self.published_at.isoformat() if self.published_at else "No date"
         return f"{self.title_en} ({date_str})"
+
+def room_image_upload_path(instance, filename):
+    """
+    Generate file path for room images: rooms/room_<room_slug>/<filename>
+    """
+    base, ext = os.path.splitext(filename)
+    slug = slugify(instance.room.title)
+    return f"rooms/room_{slug}/{instance.id}{ext}"
+
+
+class Amenity(models.Model):
+    """
+    A single amenity that can be associated with multiple rooms.
+    """
+    name = models.CharField(
+        max_length=100,
+        unique=True,
+        help_text="Amenity name (e.g., Free WiFi, Air Conditioning, Breakfast included)."
+    )
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = "Amenity"
+        verbose_name_plural = "Amenities"
+
+    def __str__(self):
+        return self.name
