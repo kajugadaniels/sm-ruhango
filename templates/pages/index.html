@@ -331,4 +331,83 @@
             </div>
         </div>
     </section>
+
+    {# — Advertisements Section — #}
+<section class="layout-pt-md layout-pb-md bg-light-2">
+    <div data-anim-wrap class="container">
+        <div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
+            <div class="col-auto">
+                <div class="sectionTitle -md">
+                    <h2 class="sectionTitle__title">
+                        {% if request.session.lang == "fr" %}
+                            Publicités
+                        {% elif request.session.lang == "rw" %}
+                            Amatangazo
+                        {% elif request.session.lang == "sw" %}
+                            Matangazo
+                        {% else %}
+                            Advertisements
+                        {% endif %}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row y-gap-30 pt-40 sm:pt-20">
+            {% for ad in adverts %}
+                <div data-anim-child="slide-up delay-{{ forloop.counter }}" class="col-xl-3 col-lg-3 col-sm-6">
+                    <div class="hotelsCard -type-1">
+                        <div class="hotelsCard__image">
+                            <div class="cardImage ratio ratio-1:1">
+                                <div class="cardImage__content">
+                                    {% if ad.image %}
+                                        <img class="rounded-4 col-12" src="{{ ad.image.url }}" alt="Advert image">
+                                    {% else %}
+                                        <img class="rounded-4 col-12" src="{% static 'img/placeholder.png' %}" alt="No image">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hotelsCard__content mt-10">
+                            <h4 class="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
+                                {% if request.session.lang == "fr" %}
+                                    {{ ad.title_fr }}
+                                {% elif request.session.lang == "rw" %}
+                                    {{ ad.title_rw }}
+                                {% elif request.session.lang == "sw" %}
+                                    {{ ad.title_sw }}
+                                {% else %}
+                                    {{ ad.title_en }}
+                                {% endif %}
+                            </h4>
+                            <p class="text-light-1 lh-14 text-14 mt-5">
+                                {% if request.session.lang == "fr" %}
+                                    {{ ad.content_fr|truncatewords:20 }}
+                                {% elif request.session.lang == "rw" %}
+                                    {{ ad.content_rw|truncatewords:20 }}
+                                {% elif request.session.lang == "sw" %}
+                                    {{ ad.content_sw|truncatewords:20 }}
+                                {% else %}
+                                    {{ ad.content_en|truncatewords:20 }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center text-light-1">
+                    {% if request.session.lang == "fr" %}
+                        Aucune publicité disponible.
+                    {% elif request.session.lang == "rw" %}
+                        Nta matangazo aboneka.
+                    {% elif request.session.lang == "sw" %}
+                        Hakuna matangazo yanayopatikana.
+                    {% else %}
+                        No advertisements available.
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock content %}
