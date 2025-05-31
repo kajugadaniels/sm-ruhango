@@ -29,14 +29,16 @@ def home(request):
     schedules = MassSchedule.objects.all().order_by('-id')[:4]
     homilies  = Homily.objects.all().order_by('-id')[:4]
     events    = Event.objects.all().order_by('-event_date', '-created_at')[:4]
+    adverts   = Advertisement.objects.all().order_by("-published_at", "-created_at")[:4]
 
     context = {
-        'schedules': schedules,
-        'homilies':  homilies,
-        'events':    events,
+        "schedules":   schedules,
+        "homilies":    homilies,
+        "events":      events,
+        "adverts":     adverts,
     }
 
-    return render(request, 'pages/index.html', context)
+    return render(request, "pages/index.html", context)
 
 def massSchedule(request):
     """
