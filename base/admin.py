@@ -319,3 +319,41 @@ class GalleryAdmin(admin.ModelAdmin):
         return "(No image)"
 
     image_preview.short_description = "Thumbnail"
+
+@admin.register(Member)
+class MemberAdmin(admin.ModelAdmin):
+    """
+    Admin interface for Member:
+    - Show name, role, and thumbnail
+    - Filter by role
+    - Search by name
+    """
+    list_display    = ('name', 'get_role_display', 'thumbnail')
+    list_filter     = ('role',)
+    search_fields   = ('name',)
+    ordering        = ('name',)
+    readonly_fields = ('thumbnail',)
+
+    fieldsets = (
+        (None, {
+            'fields': ('name', 'role'),
+            'description': 'Enter the member’s full name and select their role (Priest or Board Member).'
+        }),
+        ('Portrait Image', {
+            'fields': ('image', 'thumbnail'),
+            'description': 'Upload a square portrait (will be resized to 400×400). Thumbnail shown below.'
+        }),
+    )
+
+    def thumbnail(self, obj):
+        """
+        Display a small thumbnail of the member’s portrait.
+        """
+        if obj.image:
+            return format_html(
+                '<img src="{}" width="75" height="75" style="object-fit: cover; border-radius:50%;" />',
+                obj.image.url
+            )
+        return "(No image)"
+
+    thumbnail.short_description = "Portrait"
