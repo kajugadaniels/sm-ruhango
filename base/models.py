@@ -426,3 +426,45 @@ class RoomImage(models.Model):
         """
         return mark_safe(f'<img src="{self.image.url}" width="100" style="object-fit: cover;"/>')
     image_tag.short_description = 'Thumbnail'
+
+def gallery_image_path(instance, filename):
+    """
+    Store gallery images under MEDIA_ROOT/gallery/<slugified_caption>/<id><ext>
+    """
+    base, ext = os.path.splitext(filename)
+    slug = slugify(instance.caption_en[:50])
+    return f"gallery/{slug}_{instance.id}{ext}"
+
+
+class Gallery(models.Model):
+    """
+    Represents a gallery entry with image and multilingual captions.
+    """
+    caption_en = models.CharField(
+        max_length=200, blank=True, help_text="Caption in English"
+    )
+    caption_fr = models.CharField(
+        max_length=200, blank=True, help_text="Légende en Français"
+    )
+    caption_rw = models.CharField(
+        max_length=200, blank=True, help_text="Ishusho mu Kinyarwanda"
+    )
+    caption_sw = models.CharField(
+        max_length=200, blank=True, help_text="Maelezo kwa Kiswahili"
+    )
+    image = ProcessedImageField(
+        upload_to=gallery_image_path,
+        processors=[ResizeToFill(1200, 800)],
+        format="JPEG",
+        options={"quality": 85},
+        help_text="Main gallery image resized to 1200×800",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Gallery Item"
+        verbose_name_plural = "Gallery"
+
+    def __str__(self):
+        return f"Gallery Item {self.id} - {self.caption_en[:30]}"
