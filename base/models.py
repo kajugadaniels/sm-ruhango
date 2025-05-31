@@ -248,3 +248,64 @@ class Testimony(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.get_testimony_type_display()}) - {self.status.capitalize()}"
+
+def advertisement_image_path(instance, filename):
+    """
+    Store images under MEDIA_ROOT/advertisements/<slug>_<date><ext>
+    """
+    base, ext = os.path.splitext(filename)
+    slug = slugify(instance.title_en)
+    date_str = instance.published_at.isoformat()
+    return f"advertisements/{slug}_{date_str}{ext}"
+
+
+class Advertisement(models.Model):
+    """
+    A professional, multilingual Advertisement model:
+    - Four-language titles & content
+    - Banner image with resizing/cropping
+    - Publication date field
+    """
+
+    # When this advert is published
+    published_at = models.DateField(
+        help_text="Publication date (YYYY-MM-DD)",
+        blank=True,
+        null=True,
+    )
+
+    # Multilingual titles
+    title_en = models.CharField(max_length=200, help_text="Title in English")
+    title_fr = models.CharField(max_length=200, help_text="Titre en Français")
+    title_rw = models.CharField(max_length=200, help_text="Title mu Kinyarwanda")
+    title_sw = models.CharField(max_length=200, help_text="Title kwa Kiswahili")
+
+    # Multilingual rich-text content fields
+    content_en = RichTextUploadingField(blank=True, help_text="Content in English")
+    content_fr = RichTextUploadingField(blank=True, help_text="Contenu en Français")
+    content_rw = RichTextUploadingField(blank=True, help_text="Content mu Kinyarwanda")
+    content_sw = RichTextUploadingField(blank=True, help_text="Content kwa Kiswahili")
+
+    # Banner image with automatic resize & crop
+    image = ProcessedImageField(
+        upload_to=advertisement_image_path,
+        processors=[ResizeToFill(1200, 600)],
+        format='JPEG',
+        options={'quality': 85},
+        blank=True,
+        null=True,
+        help_text="Main banner image; auto-resized/cropped to 1200×600.",
+    )
+
+    # Audit
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-published_at', '-created_at']
+        verbose_name = "Advertisement"
+        verbose_name_plural = "Advertisements"
+
+    def __str__(self):
+        date_str = self.published_at.isoformat() if self.published_at else "No date"
+        return f"{self.title_en} ({date_str})"
