@@ -17,6 +17,7 @@ urlpatterns = [
     path('rooms/', rooms, name='rooms'),
     path('room/<int:id>/', roomDetails, name='roomDetails'),
     path('testimonies/', testimonies, name='testimonies'),
+    path('members/', members, name='members'),
     path('gallery/', gallery, name='gallery'),
     path('donate/', donate, name='donate'),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

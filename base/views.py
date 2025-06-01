@@ -34,7 +34,7 @@ def home(request):
     rooms     = Room.objects.order_by("?")[:4]
     testimonies = Testimony.objects.filter(status='published').order_by("-created_at")[:4]
     gallery   = Gallery.objects.all().order_by("-created_at")[:6]
-    priests   = Member.objects.filter(role='Priest')  # Fetch members with role 'Priest'
+    priests   = Member.objects.filter(role='Priest')[:4]
 
     context = {
         "schedules":   schedules,
@@ -160,6 +160,9 @@ def roomDetails(request, id):
 
 def testimonies(request):
     return render(request, 'pages/testimonies.html')
+
+def members(request):
+    pass
 
 def gallery(request):
     return render(request, 'pages/gallery.html')
