@@ -208,7 +208,24 @@ def rooms(request):
     return render(request, 'pages/rooms/index.html', context)
 
 def roomDetails(request, id):
-    return render(request, 'pages/rooms/show.html')
+    """
+    Fetch a single room by its ID and render the room details page.
+    Add pagination for related or nearby rooms if needed.
+    """
+    # Retrieve the room details by id
+    room = get_object_or_404(Room, id=id)
+
+    # Optionally: Fetch other rooms for related content, limit to 3 (excluding current room)
+    related_rooms = Room.objects.exclude(id=id).order_by("?")[:3]  # Random related rooms
+
+    # Pagination can be added for a specific list of related rooms if required, for now, showing just 3 related rooms.
+
+    context = {
+        "room": room,
+        "related_rooms": related_rooms,  # Rooms similar to the selected room
+    }
+
+    return render(request, 'pages/rooms/show.html', context)
 
 def testimonies(request):
     return render(request, 'pages/testimonies.html')
