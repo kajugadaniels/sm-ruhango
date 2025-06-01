@@ -284,7 +284,32 @@ def members(request):
     return render(request, 'pages/members.html', context)
 
 def gallery(request):
-    return render(request, 'pages/gallery.html')
+    """
+    Fetch gallery images and paginate them at 12 per page.
+    """
+    gallery_list = Gallery.objects.all().order_by('-created_at')  # Order images by created date
+    paginator = Paginator(gallery_list, 12)  # Paginate images at 12 per page
+    page_number = request.GET.get('page', 1)
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+
+    current = page_obj.number
+    total   = paginator.num_pages
+    start   = max(current - 3, 1)
+    end     = min(current + 3, total)
+    page_range = range(start, end + 1)
+
+    context = {
+        'page_obj':   page_obj,
+        'page_range': page_range,
+    }
+
+    return render(request, 'pages/gallery.html', context)
 
 def donate(request):
     return render(request, 'pages/donate.html')
