@@ -155,7 +155,34 @@ def eventDetails(request, id):
     return render(request, 'pages/events/show.html', context)
 
 def rooms(request):
-    return render(request, 'pages/rooms/index.html')
+    """
+    Fetch Rooms in reverse insertion order,
+    paginate at 12 per page, and render the rooms page
+    with a sliding window of ±3 page links.
+    """
+    room_list = Room.objects.all().order_by('-created_at')  # Fetch rooms ordered by creation date
+    paginator  = Paginator(room_list, 12)  # 12 rooms per page
+    page_number = request.GET.get('page', 1)  # Get current page number from query params
+
+    try:
+        rooms_page = paginator.page(page_number)
+    except PageNotAnInteger:
+        rooms_page = paginator.page(1)
+    except EmptyPage:
+        rooms_page = paginator.page(paginator.num_pages)
+
+    current   = rooms_page.number
+    total     = paginator.num_pages
+    start     = max(current - 3, 1)
+    end       = min(current + 3, total)
+    page_range = range(start, end + 1)
+
+    context = {
+        'rooms': rooms_page,  # Rooms for current page
+        'page_range': page_range,  # Range of page numbers for pagination
+    }
+
+    return render(request, 'pages/rooms/index.html', context)
 
 def roomDetails(request, id):
     return render(request, 'pages/rooms/show.html')
