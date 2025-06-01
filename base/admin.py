@@ -357,3 +357,29 @@ class MemberAdmin(admin.ModelAdmin):
         return "(No image)"
 
     thumbnail.short_description = "Portrait"
+
+@admin.register(HealingPrayer)
+class HealingPrayerAdmin(admin.ModelAdmin):
+    list_display = ('title_en', 'created_at', 'image_preview')
+    list_filter = ('created_at',)
+    search_fields = ('title_en', 'title_fr', 'title_rw', 'title_sw', 'content_en', 'content_fr', 'content_rw', 'content_sw')
+    ordering = ('-created_at',)
+    list_per_page = 20
+
+    readonly_fields = ('image_preview',)
+
+    fieldsets = (
+        ('Healing Prayer Details', {
+            'fields': ('title_en', 'title_fr', 'title_rw', 'title_sw', 'content_en', 'content_fr', 'content_rw', 'content_sw', 'image', 'image_preview'),
+            'description': 'Enter the healing prayer details in all four languages. The image will be displayed alongside the prayer text.'
+        }),
+    )
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" width="50" style="object-fit: cover; border-radius:4px;" />',
+                obj.image.url
+            )
+        return "(No image)"
+    image_preview.short_description = 'Image Preview'
