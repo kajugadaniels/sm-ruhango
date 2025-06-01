@@ -153,16 +153,16 @@ def eventDetails(request, id):
     return render(request, 'pages/events/show.html', context)
 
 def rooms(request):
-    pass
+    return render(request, 'pages/rooms/index.html')
 
 def roomDetails(request, id):
-    pass
+    return render(request, 'pages/rooms/show.html')
 
 def testimonies(request):
     return render(request, 'pages/testimonies.html')
 
 def members(request):
-    pass
+    return render(request, 'pages/members.html')
 
 def gallery(request):
     return render(request, 'pages/gallery.html')

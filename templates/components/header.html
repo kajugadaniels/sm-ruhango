@@ -22,40 +22,48 @@
 										<li><a href="{% url 'base:home' %}">Home</a></li>
 										<li><a href="{% url 'base:massSchedule' %}">Mass Schedule</a></li>
 										<li><a href="{% url 'base:homilies' %}">Homilies</a></li>
+										<li><a href="{% url 'base:rooms' %}">Room</a></li>
 										<li><a href="{% url 'base:healingPrayers' %}">Healing Prayers</a></li>
 										<li><a href="{% url 'base:events' %}">Events</a></li>
 										<li><a href="{% url 'base:testimonies' %}">Testimony</a></li>
 										<li><a href="{% url 'base:gallery' %}">Gallery</a></li>
+										<li><a href="{% url 'base:members' %}">Our Priests</a></li>
 								
 									{# ---------- FRANÇAIS ---------- #}
 									{% elif request.session.lang == "fr" %}
 										<li><a href="{% url 'base:home' %}">Accueil</a></li>
 										<li><a href="{% url 'base:massSchedule' %}">Horaire des messes</a></li>
 										<li><a href="{% url 'base:homilies' %}">Homélies</a></li>
+										<li><a href="{% url 'base:rooms' %}">Chambres</a></li>
 										<li><a href="{% url 'base:healingPrayers' %}">Prières&nbsp;de&nbsp;guérison</a></li>
 										<li><a href="{% url 'base:events' %}">Événements</a></li>
 										<li><a href="{% url 'base:testimonies' %}">Témoignage</a></li>
 										<li><a href="{% url 'base:gallery' %}">Galerie</a></li>
+										<li><a href="{% url 'base:members' %}">Nos Prêtres</a></li>
 								
 									{# ---------- KINYARWANDA ---------- #}
 									{% elif request.session.lang == "rw" %}
 										<li><a href="{% url 'base:home' %}">Ahabanza</a></li>
 										<li><a href="{% url 'base:massSchedule' %}">Igihe cya Misa</a></li>
 										<li><a href="{% url 'base:homilies' %}">Inyigisho</a></li>
+										<li><a href="{% url 'base:rooms' %}">Ibyumba</a></li>
 										<li><a href="{% url 'base:healingPrayers' %}">Amasengesho yo&nbsp;gukiza</a></li>
 										<li><a href="{% url 'base:events' %}">Ibikorwa</a></li>
 										<li><a href="{% url 'base:testimonies' %}">Ubuhamya</a></li>
 										<li><a href="{% url 'base:gallery' %}">Amashusho</a></li>
+										<li><a href="{% url 'base:members' %}">Abasaseridoti bacu</a></li>
 								
 									{# ---------- KISWAHILI ---------- #}
 									{% elif request.session.lang == "sw" %}
 										<li><a href="{% url 'base:home' %}">Nyumbani</a></li>
 										<li><a href="{% url 'base:massSchedule' %}">Ratiba ya&nbsp;Misa</a></li>
 										<li><a href="{% url 'base:homilies' %}">Mahubiri</a></li>
+										<li><a href="{% url 'base:rooms' %}">Vyumba</a></li>
 										<li><a href="{% url 'base:healingPrayers' %}">Sala za&nbsp;Uponyaji</a></li>
 										<li><a href="{% url 'base:events' %}">Matukio</a></li>
 										<li><a href="{% url 'base:testimonies' %}">Ushuhuda</a></li>
 										<li><a href="{% url 'base:gallery' %}">Picha</a></li>
+										<li><a href="{% url 'base:members' %}">Mapadri wetu</a></li>
 									{% endif %}
 								</ul>
 							</div>
