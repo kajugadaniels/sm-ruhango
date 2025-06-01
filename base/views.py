@@ -25,7 +25,7 @@ def change_language(request: HttpRequest, lang_code: str) -> HttpResponse:
 def home(request):
     """
     Home page: latest 4 MassSchedules, Homilies, Events, Advertisements,
-    4 random Rooms, 4 latest Testimonies, and Gallery.
+    4 random Rooms, 4 latest Testimonies, Gallery, and Priests.
     """
     schedules = MassSchedule.objects.all().order_by("-id")[:4]
     homilies  = Homily.objects.all().order_by("-id")[:4]
@@ -34,6 +34,7 @@ def home(request):
     rooms     = Room.objects.order_by("?")[:4]
     testimonies = Testimony.objects.filter(status='published').order_by("-created_at")[:4]
     gallery   = Gallery.objects.all().order_by("-created_at")[:6]
+    priests   = Member.objects.filter(role='Priest')  # Fetch members with role 'Priest'
 
     context = {
         "schedules":   schedules,
@@ -43,6 +44,7 @@ def home(request):
         "rooms":       rooms,
         "testimonies": testimonies,
         "gallery":     gallery,
+        "priests":     priests,
     }
 
     return render(request, "pages/index.html", context)
