@@ -35,6 +35,7 @@ def home(request):
     testimonies = Testimony.objects.filter(status='published').order_by("-created_at")[:4]
     gallery   = Gallery.objects.all().order_by("-created_at")[:6]
     priests   = Member.objects.filter(role='Priest')[:4]
+    healing_prayers = HealingPrayer.objects.all().order_by("-created_at")[:4]
 
     context = {
         "schedules":   schedules,
@@ -45,6 +46,7 @@ def home(request):
         "testimonies": testimonies,
         "gallery":     gallery,
         "priests":     priests,
+        "healing_prayers": healing_prayers,
     }
 
     return render(request, "pages/index.html", context)
