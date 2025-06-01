@@ -251,7 +251,7 @@
                                 {% if prayer.image %}
                                     <img class="rounded-4" src="{{ prayer.image.url }}" alt="Healing Prayer image">
                                 {% else %}
-                                    <img class="rounded-4" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png" alt="No image">
+                                    <img class="rounded-4" src="{% static 'img/placeholder.png' %}" alt="No image">
                                 {% endif %}
                             </div>
                             <div class="healing-prayer-card__content">
