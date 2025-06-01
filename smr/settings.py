@@ -84,34 +84,34 @@ WSGI_APPLICATION = 'smr.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-print(str(os.getenv("NODE_ENV")))
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-if str(os.getenv("NODE_ENV"))=="production":
+# print(str(os.getenv("NODE_ENV")))
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# if str(os.getenv("NODE_ENV"))=="production":
 
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:
-    DATABASES =  {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("MYSQL_DB"),
-        'USER': os.getenv("MYSQL_USER"),
-        'PASSWORD': os.getenv("MYSQL_PASSWORD"),
-        'HOST': os.getenv("MYSQL_HOST"),
-        'PORT': os.getenv("MYSQL_PORT"),
-    }
-}
-
-# DATABASES = {
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
+# else:
+#     DATABASES =  {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.getenv("MYSQL_DB"),
+#         'USER': os.getenv("MYSQL_USER"),
+#         'PASSWORD': os.getenv("MYSQL_PASSWORD"),
+#         'HOST': os.getenv("MYSQL_HOST"),
+#         'PORT': os.getenv("MYSQL_PORT"),
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
