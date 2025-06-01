@@ -1,5 +1,98 @@
 {% extends 'layouts/app.html' %}
-
+{% load static %}
 {% block content %}
+
+<section class="layout-pt-md layout-pb-lg bg-light-2">
+    <div data-anim-wrap class="container">
+        <div data-anim-child="slide-up" class="row y-gap-20 justify-between items-end">
+            <div class="col-auto">
+                <div class="sectionTitle -md">
+                    <h2 class="sectionTitle__title">
+                        {% if request.session.lang == "fr" %}
+                            Galerie
+                        {% elif request.session.lang == "rw" %}
+                            Amafoto
+                        {% elif request.session.lang == "sw" %}
+                            Galeria
+                        {% else %}
+                            Gallery
+                        {% endif %}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row y-gap-30 pt-40 sm:pt-20">
+            {% for image in page_obj %}
+                <div data-anim-child="slide-up delay-{{ forloop.counter }}" class="col-xl-3 col-lg-3 col-sm-6">
+                    <div class="gallery-item">
+                        <img class="rounded-4 col-12" src="{{ image.image.url }}" alt="Gallery Image">
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center text-light-1">
+                    {% if request.session.lang == "fr" %}
+                        Aucune image disponible.
+                    {% elif request.session.lang == "rw" %}
+                        Nta shusho ziboneka.
+                    {% elif request.session.lang == "sw" %}
+                        Hakuna picha zinazopatikana.
+                    {% else %}
+                        No images available.
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination Section -->
+        <div class="border-top-light mt-30 pt-30">
+            <div class="row x-gap-10 y-gap-20 justify-between md:justify-center">
+                <!-- Prev -->
+                <div class="col-auto md:order-1">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="button -blue-1 size-40 rounded-full border-light">
+                            <i class="icon-chevron-left text-12"></i>
+                        </a>
+                    {% else %}
+                        <button class="button -blue-1 size-40 rounded-full border-light" disabled>
+                            <i class="icon-chevron-left text-12"></i>
+                        </button>
+                    {% endif %}
+                </div>
+
+                <!-- Page Numbers (±3) -->
+                <div class="col-md-auto md:order-3">
+                    <div class="row x-gap-20 y-gap-20 items-center">
+                        {% for num in page_range %}
+                            {% if page_obj.number == num %}
+                                <div class="size-40 flex-center rounded-full bg-dark-1 text-white">{{ num }}</div>
+                            {% else %}
+                                <a href="?page={{ num }}" class="size-40 flex-center rounded-full">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-30 md:mt-10">
+                        <div class="text-14 text-light-1">
+                            {{ page_obj.start_index }} – {{ page_obj.end_index }} of {{ page_obj.paginator.count }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next -->
+                <div class="col-auto md:order-2">
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="button -blue-1 size-40 rounded-full border-light">
+                            <i class="icon-chevron-right text-12"></i>
+                        </a>
+                    {% else %}
+                        <button class="button -blue-1 size-40 rounded-full border-light" disabled>
+                            <i class="icon-chevron-right text-12"></i>
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock content %}
