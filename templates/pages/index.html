@@ -550,13 +550,13 @@
                             <div class="hotelsCard__content mt-10">
                                 <h4 class="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
                                     {% if request.session.lang == "fr" %}
-                                        {{ room.title_fr }}
+                                        {{ room.title }}
                                     {% elif request.session.lang == "rw" %}
-                                        {{ room.title_rw }}
+                                        {{ room.title }}
                                     {% elif request.session.lang == "sw" %}
-                                        {{ room.title_sw }}
+                                        {{ room.title }}
                                     {% else %}
-                                        {{ room.title_en }}
+                                        {{ room.title }}
                                     {% endif %}
                                 </h4>
                                 <p class="text-light-1 lh-14 text-14 mt-5">
