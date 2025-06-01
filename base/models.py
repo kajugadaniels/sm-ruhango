@@ -515,3 +515,43 @@ class Member(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.get_role_display()})"
+
+def healing_prayer_image_path(instance, filename):
+    base_filename, file_extension = os.path.splitext(filename)
+    return f'healing_prayers/healing_prayer_{slugify(instance.title_en)}{file_extension}'
+
+class HealingPrayer(models.Model):
+    """
+    A Healing Prayer entry with a multilingual title and content and an image.
+    """
+
+    # Multilingual Fields
+    title_en = models.CharField(max_length=200, help_text="Title in English")
+    title_fr = models.CharField(max_length=200, help_text="Titre en Français")
+    title_rw = models.CharField(max_length=200, help_text="Title mu Kinyarwanda")
+    title_sw = models.CharField(max_length=200, help_text="Title kwa Kiswahili")
+
+    content_en = RichTextUploadingField(blank=True, help_text="Content in English")
+    content_fr = RichTextUploadingField(blank=True, help_text="Contenu en Français")
+    content_rw = RichTextUploadingField(blank=True, help_text="Content mu Kinyarwanda")
+    content_sw = RichTextUploadingField(blank=True, help_text="Content kwa Kiswahili")
+
+    image = ProcessedImageField(
+        upload_to=healing_prayer_image_path,
+        processors=[ResizeToFill(1270, 1270)],
+        format='JPEG',
+        options={'quality': 90},
+        null=True,
+        blank=True
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Healing Prayer"
+        verbose_name_plural = "Healing Prayers"
+
+    def __str__(self):
+        return f"Prayer: {self.title_en}"
