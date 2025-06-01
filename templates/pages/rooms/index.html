@@ -2,95 +2,126 @@
 {% load static %}
 {% block content %}
 
-    <section class="layout-pt-md layout-pb-md">
-        <div data-anim-wrap class="container">
-            <div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
-                <div class="col-auto">
-                    <div class="sectionTitle -md">
-                        <h2 class="sectionTitle__title">
-                            {% if request.session.lang == "fr" %}
-                                Nos Chambres
-                            {% elif request.session.lang == "rw" %}
-                                Amatike yacu
-                            {% elif request.session.lang == "sw" %}
-                                Vyumba vyetu
-                            {% else %}
-                                Our Rooms
-                            {% endif %}
-                        </h2>
-                    </div>
+<section class="layout-pt-md layout-pb-md bg-light-2">
+    <div data-anim-wrap class="container">
+        <div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
+            <div class="col-auto">
+                <div class="sectionTitle -md">
+                    <h2 class="sectionTitle__title">
+                        {% if request.session.lang == "fr" %}
+                            Chambres
+                        {% elif request.session.lang == "rw" %}
+                            Ibyumba
+                        {% elif request.session.lang == "sw" %}
+                            Vyumba
+                        {% else %}
+                            Rooms
+                        {% endif %}
+                    </h2>
                 </div>
             </div>
+        </div>
 
-            <div class="row y-gap-30 pt-40 sm:pt-20">
-                {% for room in rooms %}
-                    <div data-anim-child="slide-up delay-{{ forloop.counter }}" class="col-xl-3 col-lg-4 col-sm-6">
-                        <div class="room-card">
-                            <div class="room-card__image">
-                                {% if room.images.first %}
-                                    <img class="rounded-4 col-12" src="{{ room.images.first.image.url }}" alt="Room image">
-                                {% else %}
-                                    <img class="rounded-4 col-12" src="{% static 'img/placeholder.png' %}" alt="No image">
-                                {% endif %}
-                            </div>
-                            <div class="room-card__content">
-                                <h4 class="text-18 text-dark-1 fw-600">
-                                    {{ room.title }}
-                                </h4>
-                                <p class="text-light-1 lh-14 text-14 mt-10">
-                                    {{ room.description|truncatewords:20 }}
-                                </p>
-                                <p class="text-16 text-dark-2 mt-10">
-                                    {% if request.session.lang == "fr" %}
-                                        Prix: {{ room.price_per_night }}€
-                                    {% elif request.session.lang == "rw" %}
-                                        Igiciro: {{ room.price_per_night }} RWF
-                                    {% elif request.session.lang == "sw" %}
-                                        Bei: {{ room.price_per_night }} Ksh
+        <div class="row y-gap-30 pt-40 sm:pt-20">
+            {% for room in page_obj %}
+                <div data-anim-child="slide-up delay-{{ forloop.counter }}" class="col-xl-3 col-lg-3 col-sm-6">
+                    <a href="{% url 'base:roomDetails' room.id %}" class="hotelsCard -type-1">
+                        <div class="hotelsCard__image">
+                            <div class="cardImage ratio ratio-1:1">
+                                <div class="cardImage__content">
+                                    {% if room.images.first %}
+                                        <img class="rounded-4 col-12" src="{{ room.images.first.image.url }}" alt="Room image">
                                     {% else %}
-                                        Price: {{ room.price_per_night }} USD
+                                        <img class="rounded-4 col-12" src="{% static 'img/placeholder.png' %}" alt="No image">
                                     {% endif %}
-                                </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% empty %}
-                    <div class="col-12 text-center text-light-1">
-                        {% if request.session.lang == "fr" %}
-                            Aucune chambre disponible.
-                        {% elif request.session.lang == "rw" %}
-                            Nta matike aboneka.
-                        {% elif request.session.lang == "sw" %}
-                            Hakuna vyumba vinavyopatikana.
-                        {% else %}
-                            No rooms available.
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-
-            <!-- Pagination Section -->
-            <div class="pagination mt-40">
-                <ul class="pagination__list">
-                    {% if rooms.has_previous %}
-                        <li><a href="?page=1" class="pagination__link">First</a></li>
-                        <li><a href="?page={{ rooms.previous_page_number }}" class="pagination__link">Prev</a></li>
+                        <div class="hotelsCard__content mt-10">
+                            <h4 class="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
+                                {% if request.session.lang == "fr" %}
+                                    {{ room.title_fr }}
+                                {% elif request.session.lang == "rw" %}
+                                    {{ room.title_rw }}
+                                {% elif request.session.lang == "sw" %}
+                                    {{ room.title_sw }}
+                                {% else %}
+                                    {{ room.title_en }}
+                                {% endif %}
+                            </h4>
+                            <p class="text-light-1 lh-14 text-14 mt-10">
+                                {{ room.description|truncatewords:20 }}
+                            </p>
+                            <p class="text-light-1 lh-14 text-14 mt-5">
+                                {{ room.price_per_night }} USD / night
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center text-light-1">
+                    {% if request.session.lang == "fr" %}
+                        Aucune chambre disponible.
+                    {% elif request.session.lang == "rw" %}
+                        Nta byumba biboneka.
+                    {% elif request.session.lang == "sw" %}
+                        Hakuna vyumba vinapatikana.
+                    {% else %}
+                        No rooms available.
                     {% endif %}
-                    
-                    {% for page_num in page_range %}
-                        <li class="pagination__item {% if rooms.number == page_num %}active{% endif %}">
-                            <a href="?page={{ page_num }}" class="pagination__link">{{ page_num }}</a>
-                        </li>
-                    {% endfor %}
-                    
-                    {% if rooms.has_next %}
-                        <li><a href="?page={{ rooms.next_page_number }}" class="pagination__link">Next</a></li>
-                        <li><a href="?page={{ rooms.paginator.num_pages }}" class="pagination__link">Last</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-
+                </div>
+            {% endfor %}
         </div>
-    </section>
+
+        <!-- Pagination Section -->
+        <div class="border-top-light mt-30 pt-30">
+            <div class="row x-gap-10 y-gap-20 justify-between md:justify-center">
+                <!-- Prev -->
+                <div class="col-auto md:order-1">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="button -blue-1 size-40 rounded-full border-light">
+                            <i class="icon-chevron-left text-12"></i>
+                        </a>
+                    {% else %}
+                        <button class="button -blue-1 size-40 rounded-full border-light" disabled>
+                            <i class="icon-chevron-left text-12"></i>
+                        </button>
+                    {% endif %}
+                </div>
+
+                <!-- Page Numbers (±3) -->
+                <div class="col-md-auto md:order-3">
+                    <div class="row x-gap-20 y-gap-20 items-center">
+                        {% for num in page_range %}
+                            {% if page_obj.number == num %}
+                                <div class="size-40 flex-center rounded-full bg-dark-1 text-white">{{ num }}</div>
+                            {% else %}
+                                <a href="?page={{ num }}" class="size-40 flex-center rounded-full">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-30 md:mt-10">
+                        <div class="text-14 text-light-1">
+                            {{ page_obj.start_index }} – {{ page_obj.end_index }} of {{ page_obj.paginator.count }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next -->
+                <div class="col-auto md:order-2">
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="button -blue-1 size-40 rounded-full border-light">
+                            <i class="icon-chevron-right text-12"></i>
+                        </a>
+                    {% else %}
+                        <button class="button -blue-1 size-40 rounded-full border-light" disabled>
+                            <i class="icon-chevron-right text-12"></i>
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock content %}
