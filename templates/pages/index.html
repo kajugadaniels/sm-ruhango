@@ -216,6 +216,94 @@
                     <div class="sectionTitle -md">
                         <h2 class="sectionTitle__title">
                             {% if request.session.lang == "fr" %}
+                                Prières de guérison
+                            {% elif request.session.lang == "rw" %}
+                                Isengesho ryo gukira
+                            {% elif request.session.lang == "sw" %}
+                                Maombi ya uponyaji
+                            {% else %}
+                                Healing Prayers
+                            {% endif %}
+                        </h2>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <a href="{% url 'base:healingPrayers' %}" class="button -md -blue-1 bg-blue-1-05 text-blue-1">
+                        {% if request.session.lang == "fr" %}
+                            Voir plus
+                        {% elif request.session.lang == "rw" %}
+                            Reba byinshi
+                        {% elif request.session.lang == "sw" %}
+                            Tazama Zaidi
+                        {% else %}
+                            View More
+                        {% endif %}
+                        <div class="icon-arrow-top-right ml-15"></div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row y-gap-30 pt-40 sm:pt-20">
+                {% for prayer in healing_prayers %}
+                    <div data-anim-child="slide-up delay-{{ forloop.counter }}" class="col-xl-3 col-lg-3 col-sm-6">
+                        <div class="healing-prayer-card">
+                            <div class="healing-prayer-card__image">
+                                {% if prayer.image %}
+                                    <img class="rounded-4" src="{{ prayer.image.url }}" alt="Healing Prayer image">
+                                {% else %}
+                                    <img class="rounded-4" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png" alt="No image">
+                                {% endif %}
+                            </div>
+                            <div class="healing-prayer-card__content">
+                                <h4 class="text-18 text-dark-1 fw-600">
+                                    {% if request.session.lang == "fr" %}
+                                        {{ prayer.title_fr }}
+                                    {% elif request.session.lang == "rw" %}
+                                        {{ prayer.title_rw }}
+                                    {% elif request.session.lang == "sw" %}
+                                        {{ prayer.title_sw }}
+                                    {% else %}
+                                        {{ prayer.title_en }}
+                                    {% endif %}
+                                </h4>
+                                <p class="text-light-1 lh-14 text-14 mt-10">
+                                    {% if request.session.lang == "fr" %}
+                                        {{ prayer.content_fr|truncatewords:20 }}
+                                    {% elif request.session.lang == "rw" %}
+                                        {{ prayer.content_rw|truncatewords:20 }}
+                                    {% elif request.session.lang == "sw" %}
+                                        {{ prayer.content_sw|truncatewords:20 }}
+                                    {% else %}
+                                        {{ prayer.content_en|truncatewords:20 }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-12 text-center text-light-1">
+                        {% if request.session.lang == "fr" %}
+                            Aucune prière de guérison disponible.
+                        {% elif request.session.lang == "rw" %}
+                            Nta isengesho ryo gukira riboneka.
+                        {% elif request.session.lang == "sw" %}
+                            Hakuna maombi ya uponyaji yanayopatikana.
+                        {% else %}
+                            No healing prayers available.
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="layout-pt-md layout-pb-md bg-light-2">
+        <div data-anim-wrap class="container">
+            <div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
+                <div class="col-auto">
+                    <div class="sectionTitle -md">
+                        <h2 class="sectionTitle__title">
+                            {% if request.session.lang == "fr" %}
                                 Événements
                             {% elif request.session.lang == "rw" %}
                                 Ibikorwa
