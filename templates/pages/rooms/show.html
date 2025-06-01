@@ -1,5 +1,137 @@
 {% extends 'layouts/app.html' %}
-
+{% load static %}
 {% block content %}
+
+<section class="layout-pt-md layout-pb-md bg-light-2">
+    <div data-anim-wrap class="container">
+        <div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
+            <div class="col-auto">
+                <div class="sectionTitle -md">
+                    <h2 class="sectionTitle__title">
+                        {% if request.session.lang == "fr" %}
+                            Détails de la chambre
+                        {% elif request.session.lang == "rw" %}
+                            Ibisobanuro by’icyumba
+                        {% elif request.session.lang == "sw" %}
+                            Maelezo ya chumba
+                        {% else %}
+                            Room Details
+                        {% endif %}
+                    </h2>
+                </div>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'base:rooms' %}" class="button -md -blue-1 bg-blue-1-05 text-blue-1">
+                    {% if request.session.lang == "fr" %}
+                        Voir plus
+                    {% elif request.session.lang == "rw" %}
+                        Reba byinshi
+                    {% elif request.session.lang == "sw" %}
+                        Tazama Zaidi
+                    {% else %}
+                        View More
+                    {% endif %}
+                    <div class="icon-arrow-top-right ml-15"></div>
+                </a>
+            </div>
+        </div>
+
+        <div class="row y-gap-30 pt-40 sm:pt-20">
+            <!-- Room Information -->
+            <div class="col-xl-8 col-lg-8 col-md-12">
+                <div class="room-details-card">
+                    <div class="room-details-card__image">
+                        {% if room.images.first %}
+                            <img class="rounded-4 col-12" src="{{ room.images.first.image.url }}" alt="{{ room.title }}">
+                        {% else %}
+                            <img class="rounded-4 col-12" src="{% static 'img/placeholder.png' %}" alt="No image">
+                        {% endif %}
+                    </div>
+                    <div class="room-details-card__content">
+                        <h4 class="text-18 text-dark-1 fw-600">{{ room.title }}</h4>
+                        <p class="text-14 text-light-1 lh-14 mt-10">
+                            {{ room.description|truncatewords:40 }}
+                        </p>
+                        <p class="text-16 lh-18 mt-20">
+                            <strong>{{ room.price_per_night }} USD / night</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Amenities -->
+            <div class="col-xl-4 col-lg-4 col-md-12">
+                <div class="room-amenities">
+                    <h4 class="text-16 fw-600 text-dark-1">Amenities</h4>
+                    <ul>
+                        {% for amenity in room.amenities.all %}
+                            <li>{{ amenity.name }}</li>
+                        {% empty %}
+                            <li>No amenities available</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Rooms Section -->
+        <div class="row y-gap-30 pt-40 sm:pt-20">
+            <div class="col-12">
+                <h3 class="sectionTitle__title">
+                    {% if request.session.lang == "fr" %}
+                        Chambres similaires
+                    {% elif request.session.lang == "rw" %}
+                        Ibyumba bisa
+                    {% elif request.session.lang == "sw" %}
+                        Vyumba vinavyofanana
+                    {% else %}
+                        Related Rooms
+                    {% endif %}
+                </h3>
+            </div>
+            
+            {% for related_room in related_rooms %}
+                <div class="col-xl-3 col-lg-3 col-sm-6">
+                    <div class="hotelsCard -type-1">
+                        <div class="hotelsCard__image">
+                            <div class="cardImage ratio ratio-1:1">
+                                <div class="cardImage__content">
+                                    {% if related_room.images.first %}
+                                        <img class="rounded-4 col-12" src="{{ related_room.images.first.image.url }}" alt="Room image">
+                                    {% else %}
+                                        <img class="rounded-4 col-12" src="{% static 'img/placeholder.png' %}" alt="No image">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hotelsCard__content mt-10">
+                            <h4 class="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">{{ related_room.title }}</h4>
+                            <p class="text-light-1 lh-14 text-14 mt-5">
+                                {{ related_room.price_per_night }} USD / night
+                            </p>
+                            <a href="{% url 'base:roomDetails' related_room.id %}" class="button -outline-blue-1 px-30 h-50 text-blue-1">
+                                View Details
+                                <div class="icon-arrow-top-right ml-15"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center text-light-1">
+                    {% if request.session.lang == "fr" %}
+                        Aucune chambre similaire disponible.
+                    {% elif request.session.lang == "rw" %}
+                        Nta byumba bisa biboneka.
+                    {% elif request.session.lang == "sw" %}
+                        Hakuna vyumba vinavyofanana vinavyopatikana.
+                    {% else %}
+                        No related rooms available.
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
 
 {% endblock content %}
