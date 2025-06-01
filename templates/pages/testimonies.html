@@ -1,5 +1,147 @@
 {% extends 'layouts/app.html' %}
-
+{% load static %}
 {% block content %}
+
+<section class="layout-pt-md layout-pb-lg bg-light-2">
+    <div data-anim-wrap class="container">
+        <div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
+            <div class="col-auto">
+                <div class="sectionTitle -md">
+                    <h2 class="sectionTitle__title">
+                        {% if request.session.lang == "fr" %}
+                            Témoignages
+                        {% elif request.session.lang == "rw" %}
+                            Ubuhamya
+                        {% elif request.session.lang == "sw" %}
+                            Ushuhuda
+                        {% else %}
+                            Testimonies
+                        {% endif %}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row y-gap-30 pt-40 sm:pt-20">
+            {% for testimony in page_obj %}
+                <div data-anim-child="slide-up delay-{{ forloop.counter }}" class="col-xl-3 col-lg-3 col-sm-6">
+                    <div class="testimonials-card">
+                        <div class="testimonials-card__image">
+                            {% if testimony.image %}
+                                <img class="rounded-full" src="{{ testimony.image.url }}" alt="{{ testimony.name }}">
+                            {% else %}
+                                <img class="rounded-full" src="{% static 'img/placeholder.png' %}" alt="No image">
+                            {% endif %}
+                        </div>
+                        <div class="testimonials-card__content">
+                            <h4 class="text-16 fw-500 text-blue-1 mb-20">{{ testimony.name }}</h4>
+
+                            <p class="testimonials__text lh-18 fw-500 text-dark-1">
+                                {% if testimony.testimony_type == 'text' %}
+                                    "{{ testimony.content|truncatewords:30 }}"
+                                {% elif testimony.testimony_type == 'audio' %}
+                                    <audio controls>
+                                        <source src="{{ testimony.audio.url }}" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                {% elif testimony.testimony_type == 'video' %}
+                                    <video controls width="100%">
+                                        <source src="{{ testimony.video.url }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                {% else %}
+                                    "{{ testimony.content|truncatewords:30 }}"
+                                {% endif %}
+                            </p>
+
+                            <div class="pt-20 mt-28 border-top-light">
+                                <div class="row x-gap-20 y-gap-20 items-center">
+                                    <div class="col-auto">
+                                        <img src="{% static 'img/placeholder.png' %}" alt="{{ testimony.name }}" class="rounded-full size-60" />
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="text-15 fw-500 lh-14">{{ testimony.name }}</div>
+                                        <div class="text-14 lh-14 text-light-1 mt-5">
+                                            {% if request.session.lang == "fr" %}
+                                                Témoignage {{ testimony.get_testimony_type_display }}
+                                            {% elif request.session.lang == "rw" %}
+                                                Ubuhamya {{ testimony.get_testimony_type_display }}
+                                            {% elif request.session.lang == "sw" %}
+                                                Ushuhuda {{ testimony.get_testimony_type_display }}
+                                            {% else %}
+                                                Testimony {{ testimony.get_testimony_type_display }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center text-light-1">
+                    {% if request.session.lang == "fr" %}
+                        Aucun témoignage disponible.
+                    {% elif request.session.lang == "rw" %}
+                        Nta buhamya buboneka.
+                    {% elif request.session.lang == "sw" %}
+                        Hakuna ushuhuda unaopatikana.
+                    {% else %}
+                        No testimonies available.
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination Section -->
+        <div class="border-top-light mt-30 pt-30">
+            <div class="row x-gap-10 y-gap-20 justify-between md:justify-center">
+                <!-- Prev -->
+                <div class="col-auto md:order-1">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="button -blue-1 size-40 rounded-full border-light">
+                            <i class="icon-chevron-left text-12"></i>
+                        </a>
+                    {% else %}
+                        <button class="button -blue-1 size-40 rounded-full border-light" disabled>
+                            <i class="icon-chevron-left text-12"></i>
+                        </button>
+                    {% endif %}
+                </div>
+
+                <!-- Page Numbers (±3) -->
+                <div class="col-md-auto md:order-3">
+                    <div class="row x-gap-20 y-gap-20 items-center">
+                        {% for num in page_range %}
+                            {% if page_obj.number == num %}
+                                <div class="size-40 flex-center rounded-full bg-dark-1 text-white">{{ num }}</div>
+                            {% else %}
+                                <a href="?page={{ num }}" class="size-40 flex-center rounded-full">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-30 md:mt-10">
+                        <div class="text-14 text-light-1">
+                            {{ page_obj.start_index }} – {{ page_obj.end_index }} of {{ page_obj.paginator.count }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next -->
+                <div class="col-auto md:order-2">
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="button -blue-1 size-40 rounded-full border-light">
+                            <i class="icon-chevron-right text-12"></i>
+                        </a>
+                    {% else %}
+                        <button class="button -blue-1 size-40 rounded-full border-light" disabled>
+                            <i class="icon-chevron-right text-12"></i>
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock content %}
