@@ -740,5 +740,84 @@
         </div>
     </section>
 
+    <section class="layout-pt-md layout-pb-md bg-dark-2">
+        <div data-anim-wrap class="container">
+            <div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
+                <div class="col-auto">
+                    <div class="sectionTitle -md">
+                        <h2 class="sectionTitle__title">
+                            {% if request.session.lang == "fr" %}
+                                Nos Prêtres
+                            {% elif request.session.lang == "rw" %}
+                                Abasaseridoti bacu
+                            {% elif request.session.lang == "sw" %}
+                                Mapadri wetu
+                            {% else %}
+                                Our Priests
+                            {% endif %}
+                        </h2>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <a href="{% url 'base:members' %}" class="button -md -blue-1 bg-blue-1-05 text-blue-1">
+                        {% if request.session.lang == "fr" %}
+                            Voir plus
+                        {% elif request.session.lang == "rw" %}
+                            Reba Byinshi
+                        {% elif request.session.lang == "sw" %}
+                            Tazama Zaidi
+                        {% else %}
+                            View More
+                        {% endif %}
+                        <div class="icon-arrow-top-right ml-15"></div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row y-gap-30 pt-40 sm:pt-20">
+                {% for priest in priests %}
+                    <div data-anim-child="slide-up delay-{{ forloop.counter }}" class="col-xl-3 col-lg-3 col-sm-6">
+                        <div class="team-card-1">
+                            <div class="team-card-1__image">
+                                {% if priest.image %}
+                                    <img class="rounded-circle" src="{{ priest.image.url }}" alt="{{ priest.name }}">
+                                {% else %}
+                                    <img class="rounded-circle" src="{% static 'img/placeholder-avatar.png' %}" alt="{{ priest.name }}">
+                                {% endif %}
+                            </div>
+                            <div class="team-card-1__content">
+                                <h4 class="text-18 text-dark-1 fw-600">
+                                    {{ priest.name }}
+                                </h4>
+                                <p class="text-14 text-light-1 lh-14 mt-10">
+                                    {% if request.session.lang == "fr" %}
+                                        {{ priest.role_fr }}
+                                    {% elif request.session.lang == "rw" %}
+                                        {{ priest.role_rw }}
+                                    {% elif request.session.lang == "sw" %}
+                                        {{ priest.role_sw }}
+                                    {% else %}
+                                        {{ priest.role_en }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-12 text-center text-light-1">
+                        {% if request.session.lang == "fr" %}
+                            Aucun prêtre disponible.
+                        {% elif request.session.lang == "rw" %}
+                            Nta basaseridoti baboneka.
+                        {% elif request.session.lang == "sw" %}
+                            Hakuna mapadri wanaopatikana.
+                        {% else %}
+                            No priests available.
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 
 {% endblock content %}
