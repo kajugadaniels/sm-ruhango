@@ -1,5 +1,155 @@
 {% extends 'layouts/app.html' %}
-
+{% load static %}
 {% block content %}
+
+<section class="pt-40 layout-pb-md">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-7 col-lg-8">
+
+                <div class="mt-40">
+                    <h3 class="text-22 fw-500 mb-20">
+                        {% if request.session.lang == "fr" %}
+                            Comment souhaitez-vous payer ?
+                        {% elif request.session.lang == "rw" %}
+                            Ni gute wifuza kwishyura?
+                        {% elif request.session.lang == "sw" %}
+                            Ungependa kulipa vipi?
+                        {% else %}
+                            How do you want to pay?
+                        {% endif %}
+                    </h3>
+
+                    <div class="row y-gap-20 x-gap-20">
+                        <div class="col-auto">
+                            <button class="button -dark-1 bg-blue-1 text-white px-20 py-15">
+                                {% if request.session.lang == "fr" %}
+                                    Carte de Crédit/Débit
+                                {% elif request.session.lang == "rw" %}
+                                    Ikadi ya Kredit / Debiti
+                                {% elif request.session.lang == "sw" %}
+                                    Kadi ya Mikopo / Debit
+                                {% else %}
+                                    Credit/Debit Card
+                                {% endif %}
+                            </button>
+                        </div>
+
+                        <div class="col-auto">
+                            <button class="button -blue-1 bg-light-2 px-20 py-15">
+                                {% if request.session.lang == "fr" %}
+                                    Paiement numérique
+                                {% elif request.session.lang == "rw" %}
+                                    Kwishyura Hifashishijwe Ikoranabuhanga
+                                {% elif request.session.lang == "sw" %}
+                                    Malipo ya Kidijitali
+                                {% else %}
+                                    Digital Payment
+                                {% endif %}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row x-gap-20 y-gap-20 pt-20">
+                        <div class="col-12">
+                            <div class="form-input ">
+                                <input type="text" required>
+                                <label class="lh-1 text-16 text-light-1">
+                                    {% if request.session.lang == "fr" %}
+                                        Sélectionnez le mode de paiement *
+                                    {% elif request.session.lang == "rw" %}
+                                        Hitamo uburyo bwo kwishyura *
+                                    {% elif request.session.lang == "sw" %}
+                                        Chagua njia ya malipo *
+                                    {% else %}
+                                        Select payment method *
+                                    {% endif %}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="form-input ">
+                                <input type="text" required>
+                                <label class="lh-1 text-16 text-light-1">
+                                    {% if request.session.lang == "fr" %}
+                                        Nom du titulaire de la carte *
+                                    {% elif request.session.lang == "rw" %}
+                                        Izina ry’umukiriya wa karita *
+                                    {% elif request.session.lang == "sw" %}
+                                        Jina la mmiliki wa kadi *
+                                    {% else %}
+                                        Card holder name *
+                                    {% endif %}
+                                </label>
+                            </div>
+
+                            <div class="form-input mt-20">
+                                <input type="text" required>
+                                <label class="lh-1 text-16 text-light-1">
+                                    {% if request.session.lang == "fr" %}
+                                        Numéro de carte de crédit/débit *
+                                    {% elif request.session.lang == "rw" %}
+                                        Nimero ya karita ya Kredit / Debiti *
+                                    {% elif request.session.lang == "sw" %}
+                                        Nambari ya kadi ya mikopo / debit *
+                                    {% else %}
+                                        Credit/debit card number *
+                                    {% endif %}
+                                </label>
+                            </div>
+
+                            <div class="row x-gap-20 y-gap-20 pt-20">
+                                <div class="col-md-6">
+
+                                    <div class="form-input ">
+                                        <input type="text" required>
+                                        <label class="lh-1 text-16 text-light-1">
+                                            {% if request.session.lang == "fr" %}
+                                                Date d’expiration *
+                                            {% elif request.session.lang == "rw" %}
+                                                Itariki isoza *
+                                            {% elif request.session.lang == "sw" %}
+                                                Tarehe ya kumalizika *
+                                            {% else %}
+                                                Expiry date *
+                                            {% endif %}
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="form-input ">
+                                        <input type="text" required>
+                                        <label class="lh-1 text-16 text-light-1">
+                                            {% if request.session.lang == "fr" %}
+                                                CVC/CVV *
+                                            {% elif request.session.lang == "rw" %}
+                                                CVC/CVV *
+                                            {% elif request.session.lang == "sw" %}
+                                                CVC/CVV *
+                                            {% else %}
+                                                CVC/CVV *
+                                            {% endif %}
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <img src="https://creativelayers.net/themes/gotrip-html/img/booking-pages/card.png" alt="image" class="h-full">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock content %}
