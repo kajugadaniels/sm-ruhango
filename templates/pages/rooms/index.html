@@ -1,5 +1,96 @@
 {% extends 'layouts/app.html' %}
-
+{% load static %}
 {% block content %}
+
+    <section class="layout-pt-md layout-pb-md">
+        <div data-anim-wrap class="container">
+            <div data-anim-child="slide-up delay-1" class="row y-gap-20 justify-between items-end">
+                <div class="col-auto">
+                    <div class="sectionTitle -md">
+                        <h2 class="sectionTitle__title">
+                            {% if request.session.lang == "fr" %}
+                                Nos Chambres
+                            {% elif request.session.lang == "rw" %}
+                                Amatike yacu
+                            {% elif request.session.lang == "sw" %}
+                                Vyumba vyetu
+                            {% else %}
+                                Our Rooms
+                            {% endif %}
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row y-gap-30 pt-40 sm:pt-20">
+                {% for room in rooms %}
+                    <div data-anim-child="slide-up delay-{{ forloop.counter }}" class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="room-card">
+                            <div class="room-card__image">
+                                {% if room.images.first %}
+                                    <img class="rounded-4 col-12" src="{{ room.images.first.image.url }}" alt="Room image">
+                                {% else %}
+                                    <img class="rounded-4 col-12" src="{% static 'img/placeholder.png' %}" alt="No image">
+                                {% endif %}
+                            </div>
+                            <div class="room-card__content">
+                                <h4 class="text-18 text-dark-1 fw-600">
+                                    {{ room.title }}
+                                </h4>
+                                <p class="text-light-1 lh-14 text-14 mt-10">
+                                    {{ room.description|truncatewords:20 }}
+                                </p>
+                                <p class="text-16 text-dark-2 mt-10">
+                                    {% if request.session.lang == "fr" %}
+                                        Prix: {{ room.price_per_night }}€
+                                    {% elif request.session.lang == "rw" %}
+                                        Igiciro: {{ room.price_per_night }} RWF
+                                    {% elif request.session.lang == "sw" %}
+                                        Bei: {{ room.price_per_night }} Ksh
+                                    {% else %}
+                                        Price: {{ room.price_per_night }} USD
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-12 text-center text-light-1">
+                        {% if request.session.lang == "fr" %}
+                            Aucune chambre disponible.
+                        {% elif request.session.lang == "rw" %}
+                            Nta matike aboneka.
+                        {% elif request.session.lang == "sw" %}
+                            Hakuna vyumba vinavyopatikana.
+                        {% else %}
+                            No rooms available.
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination Section -->
+            <div class="pagination mt-40">
+                <ul class="pagination__list">
+                    {% if rooms.has_previous %}
+                        <li><a href="?page=1" class="pagination__link">First</a></li>
+                        <li><a href="?page={{ rooms.previous_page_number }}" class="pagination__link">Prev</a></li>
+                    {% endif %}
+                    
+                    {% for page_num in page_range %}
+                        <li class="pagination__item {% if rooms.number == page_num %}active{% endif %}">
+                            <a href="?page={{ page_num }}" class="pagination__link">{{ page_num }}</a>
+                        </li>
+                    {% endfor %}
+                    
+                    {% if rooms.has_next %}
+                        <li><a href="?page={{ rooms.next_page_number }}" class="pagination__link">Next</a></li>
+                        <li><a href="?page={{ rooms.paginator.num_pages }}" class="pagination__link">Last</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
+        </div>
+    </section>
 
 {% endblock content %}
